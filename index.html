@@ -943,25 +943,63 @@
         }
 
         /* Responsive adjustments */
-        @media (max-width: 480px) {
-            .chat-header {
-                min-height: 80px;
-            }
+        /* Mobile fix for chat page */
+@media (max-width: 480px) {
+    .chat-header {
+        min-height: auto;
+        justify-content: center;
+        gap: 0.6rem;
+    }
 
-            .header-content {
-                width: 100%;
-                flex-basis: 100%;
-            }
+    .header-left {
+        width: 100%;
+        justify-content: center;
+        order: 1;
+    }
 
-            .chat-header h1 {
-                font-size: 1rem;
-            }
+    .header-content {
+        width: 100%;
+        flex-basis: 100%;
+        order: 2;
+    }
 
-            .header-buttons,
-            .header-left {
-                flex-basis: auto;
-            }
-        }
+    .header-buttons {
+        width: 100%;
+        justify-content: center;
+        order: 3;
+    }
+
+    .form-wrapper {
+        flex-direction: row;
+        align-items: flex-end;
+        gap: 0.5rem;
+    }
+
+    .form-inputs {
+        flex: 1;
+    }
+
+    .send-btn-wrapper {
+        margin-top: 0;
+        flex-shrink: 0;
+    }
+
+    .send-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 0.75rem;
+    }
+}
+
+/* Remove the bottom line / bar under inputs */
+.chat-form-wrapper {
+    border-top: none;
+}
+
+.chat-form {
+    box-shadow: none;
+}
+
 
         @media (min-width: 768px) {
             .return-btn,
@@ -1275,7 +1313,7 @@
                 offer6: "편안한 읽기를 위한 어두운/밝은 모드",
                 disclaimer: "중요한 면책 조항",
                 disclaimerText: "치료법 채팅은 교육 정보만 제공합니다. 이는 전문 의료 조언, 진단 또는 치료의 대체재가 아닙니다.",
-                disclaimerText2: "특히 심각한 건강 상태의 경우 새로운 치료법이   치료를 시작하기 전에 항상 자격 있는 의료 전문가와 상담하세요.",
+                disclaimerText2: "특히 심각한 건강 상태의 경우 새로운 치료법이나 치료를 시작하기 전에 항상 자격 있는 의료 전문가와 상담하세요.",
                 safetyFirst: "안전 우선",
                 safetyFirstText: "감염, 의료 응급 및 심각한 건강 문제의 경우 즉시 전문 의료 처치를 받으세요. 전통 치료법은 보완하지만 전문 치료를 대체하지 않습니다.",
                 development: "개발",
@@ -1346,9 +1384,9 @@
                 noAnalyticsText: "ما استفاده، موقعیت یا هیچ اطلاعات شخصی را ردگیری نمی کنیم. حریم خصوصی شما کاملا محفوظ است.",
                 noThirdParty: "بدون اشتراک گذاری از طرف ثالث",
                 noThirdPartyText: "داده های شما با شخص ثالث به اشتراک گذاری نمی شود. شبکه های تبلیغاتی یا خدمات خارجی استفاده نمی شود.",
-                offlineFirst: "اولویت آفلا  ن",
+                offlineFirst: "اولویت آفلاین",
                 offlineFirstText: "دردشة درمان کاملا به صورت آفلاین کار می کند. هیچ داده ای برای سرورهای خارجی ارسال نمی شود.",
-                localStorage: "ذخیره سازی   حلی",
+                localStorage: "ذخیره سازی محلی",
                 localStorageText: "ما فقط تنظیمات تم (حالت تاریک / روشن) را برای راحتی در ذخیره سازی محلی مرورگر ذخیره می کنیم.",
                 security: "امنیت",
                 securityText: "از آنجا که هیچ داده ای جمع آوری یا منتقل نمی شود، هیچ ریسک امنیتی برای نقض داده ها وجود ندارد.",
@@ -1379,7 +1417,7 @@
                 "flu": "생강차에 꿀과 레몬을 섞어 사용하세요. 마늘은 항균 특성이 있습니다. 휴식을 취하고 수분을 유지하세요.",
             },
             fa: {
-                "allergies": "عسل محلی ممکن است واکنش ها را کاهش دهد. مواد غذایی غنی شده از کوئر  یتین مانند پیاز کمک می کند.",
+                "allergies": "عسل محلی ممکن است واکنش ها را کاهش دهد. مواد غذایی غنی شده از کوئرسیتین مانند پیاز کمک می کند.",
                 "flu": "از چای زنجبیل با عسل و لیمو استفاده کنید. سیر دارای خصوصیات ضد میکروبی است. استراحت و ماندن آبی ضروری است.",
             }
         };
@@ -2130,4 +2168,4 @@
         window.goToWelcome = goToWelcome;
     </script>
 </body>
-</html>      
+</html>
