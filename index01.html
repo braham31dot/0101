@@ -1,0 +1,2133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, maximum-scale=1.0">
+    <title>Remedy Chat - Traditional Wellness Guidance</title>
+    
+    <!-- Favicon for browser -->
+    <link rel="icon" type="image/png" href="icon.png">
+    
+    <!-- Apple Touch Icon for iOS -->
+    <link rel="apple-touch-icon" href="icon.png">
+    
+    <!-- Android Chrome Icon -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icon.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon.png">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="data:application/json,{%22name%22:%22Remedy%20Chat%22,%22short_name%22:%22Remedy%22,%22start_url%22:%22/%22,%22display%22:%22standalone%22,%22background_color%22:%22%23ffffff%22,%22theme_color%22:%2310b981%22,%22orientation%22:%22portrait-primary%22}">
+    
+    <meta name="theme-color" content="#10b981">
+    <meta name="description" content="Traditional wellness guidance from African, Asian, Islamic, and Arabic healing traditions.">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Remedy Chat">
+    
+    <style>
+        :root {
+            --background: #f8fafc;
+            --foreground: #0f172a;
+            --card: #ffffff;
+            --card-foreground: #0f172a;
+            --primary: #10b981;
+            --primary-foreground: #ffffff;
+            --secondary: #8b5cf6;
+            --secondary-foreground: #ffffff;
+            --muted: #64748b;
+            --muted-foreground: #ffffff;
+            --accent: #f59e0b;
+            --accent-foreground: #ffffff;
+            --destructive: #ef4444;
+            --destructive-foreground: #ffffff;
+            --border: #e2e8f0;
+            --input: #e2e8f0;
+            --ring: #10b981;
+            --safe-area-inset-top: env(safe-area-inset-top, 0);
+            --safe-area-inset-bottom: env(safe-area-inset-bottom, 0);
+        }
+
+        [data-theme="dark"] {
+            --background: #0f172a;
+            --foreground: #f1f5f9;
+            --card: #1e293b;
+            --card-foreground: #f1f5f9;
+            --border: #334155;
+            --input: #1e293b;
+        }
+
+        [data-color="emerald"] {
+            --primary: #10b981;
+        }
+
+        [data-color="blue"] {
+            --primary: #3b82f6;
+        }
+
+        [data-color="purple"] {
+            --primary: #a855f7;
+        }
+
+        [data-color="pink"] {
+            --primary: #ec4899;
+        }
+
+        [data-color="orange"] {
+            --primary: #f97316;
+        }
+
+        [data-color="cyan"] {
+            --primary: #06b6d4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+            -webkit-user-select: none;
+            user-select: none;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        input, select, textarea, button {
+            -webkit-user-select: text;
+            user-select: text;
+            font-family: inherit;
+        }
+
+        #root {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ========== WELCOME/INTRO PAGE ========== */
+        .welcome-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
+            color: white;
+            padding: 1.5rem;
+            padding-top: calc(2rem + var(--safe-area-inset-top));
+            padding-bottom: calc(1rem + var(--safe-area-inset-bottom));
+            text-align: center;
+            animation: fadeIn 0.5s ease-in;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            transition: background 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .welcome-content-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .welcome-logo {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .welcome-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            letter-spacing: -1px;
+        }
+
+        .welcome-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .welcome-section {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: left;
+        }
+
+        .welcome-section h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .welcome-section p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .welcome-buttons {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .welcome-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .welcome-btn:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .welcome-main-btn {
+            padding: 0.9rem 1.8rem;
+            background: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 2rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .welcome-main-btn:active {
+            transform: scale(0.96);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ========== ABOUT/PRIVACY PAGES ========== */
+        .info-page {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            background-color: var(--background);
+        }
+
+        .info-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
+            color: white;
+            padding: calc(1rem + var(--safe-area-inset-top)) 1rem 1rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            flex-shrink: 0;
+            transition: background 0.3s ease;
+        }
+
+        .info-header h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            transition: all 0.2s;
+        }
+
+        .back-btn:active {
+            transform: scale(0.92);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .info-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.25rem;
+            padding-bottom: calc(1.25rem + var(--safe-area-inset-bottom));
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+        }
+
+        .info-content h2 {
+            font-size: 1.1rem;
+            margin-top: 1.25rem;
+            margin-bottom: 0.6rem;
+            color: var(--primary);
+            transition: color 0.3s ease;
+        }
+
+        .info-content h2:first-child {
+            margin-top: 0;
+        }
+
+        .info-content p {
+            margin-bottom: 0.85rem;
+            line-height: 1.5;
+            color: var(--foreground);
+            font-size: 0.9rem;
+        }
+
+        .info-content ul {
+            margin-left: 1.25rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .info-content li {
+            margin-bottom: 0.4rem;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        /* ========== CHAT PAGE ========== */
+        .loading-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
+            flex-direction: column;
+            gap: 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            transition: background 0.3s ease;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .loading-subtext {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.875rem;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            background-color: var(--background);
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
+            color: white;
+            padding: calc(0.8rem + var(--safe-area-inset-top)) 0.8rem 0.8rem 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            flex-shrink: 0;
+            z-index: 100;
+            gap: 0.3rem;
+            transition: background 0.3s ease;
+            flex-wrap: wrap;
+        }
+
+        .header-content {
+            flex: 1;
+            text-align: center;
+            min-width: 0;
+            order: 2;
+        }
+
+        .chat-header h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .chat-header p {
+            font-size: 0.65rem;
+            opacity: 0.85;
+            margin-top: 0.15rem;
+            font-weight: 500;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 0.25rem;
+            flex-shrink: 0;
+            order: 3;
+        }
+
+        .header-left {
+            display: flex;
+            gap: 0.25rem;
+            flex-shrink: 0;
+            order: 1;
+        }
+
+        .return-btn {
+            background: rgba(255, 255, 255, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+            -webkit-user-select: none;
+            user-select: none;
+            flex-shrink: 0;
+            backdrop-filter: blur(10px);
+            padding: 0;
+        }
+
+        .return-btn:active {
+            transform: scale(0.92);
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .lang-menu {
+            position: relative;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            -webkit-user-select: none;
+            user-select: none;
+            flex-shrink: 0;
+            backdrop-filter: blur(10px);
+            padding: 0;
+            font-weight: 600;
+        }
+
+        .lang-btn:active {
+            transform: scale(0.92);
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .lang-dropdown {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            z-index: 1001;
+            min-width: 120px;
+            overflow: hidden;
+        }
+
+        .lang-dropdown.active {
+            display: flex;
+        }
+
+        .lang-option {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            background: transparent;
+            text-align: left;
+            font-size: 0.85rem;
+            color: var(--foreground);
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .lang-option:active {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .lang-option.selected {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            font-weight: 600;
+        }
+
+        .color-menu {
+            position: relative;
+        }
+
+        .color-btn {
+            background: rgba(255, 255, 255, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+            -webkit-user-select: none;
+            user-select: none;
+            flex-shrink: 0;
+            backdrop-filter: blur(10px);
+            padding: 0;
+        }
+
+        .color-btn:active {
+            transform: scale(0.92);
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .color-dropdown {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            z-index: 1001;
+            min-width: 140px;
+            overflow: hidden;
+        }
+
+        .color-dropdown.active {
+            display: flex;
+        }
+
+        .color-option {
+            padding: 0.7rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            background: transparent;
+            text-align: left;
+            font-size: 0.9rem;
+            color: var(--foreground);
+            -webkit-user-select: none;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .color-option:active {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .color-option.selected {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            font-weight: 600;
+        }
+
+        .color-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .color-dot.emerald { background: #10b981; }
+        .color-dot.blue { background: #3b82f6; }
+        .color-dot.purple { background: #a855f7; }
+        .color-dot.pink { background: #ec4899; }
+        .color-dot.orange { background: #f97316; }
+        .color-dot.cyan { background: #06b6d4; }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+            -webkit-user-select: none;
+            user-select: none;
+            flex-shrink: 0;
+            backdrop-filter: blur(10px);
+            padding: 0;
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.92);
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.6rem 0.6rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            -webkit-user-select: text;
+            user-select: text;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+        }
+
+        .message {
+            display: flex;
+            gap: 0.3rem;
+            animation: slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-content {
+            max-width: 85%;
+            padding: 0.5rem 0.75rem;
+            border-radius: 1rem;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            line-height: 1.35;
+            font-size: 0.85rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            display: inline-block;
+        }
+
+        .message.bot .message-content {
+            background-color: var(--card);
+            color: var(--card-foreground);
+            border: 1px solid var(--border);
+            border-radius: 1.2rem;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary) 100%);
+            filter: brightness(0.9);
+            color: var(--primary-foreground);
+            border-radius: 1.2rem;
+            border-bottom-right-radius: 0.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .message-content.warning {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            color: #92400e;
+            border-left: 3px solid #f59e0b;
+            border-radius: 0.8rem;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 0.3rem;
+            padding: 0.5rem 0.75rem;
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 1.2rem;
+            width: fit-content;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--muted);
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                opacity: 0.5;
+                transform: translateY(0);
+            }
+            30% {
+                opacity: 1;
+                transform: translateY(-5px);
+            }
+        }
+
+        .chat-form-wrapper {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--card);
+            border-top: 1px solid var(--border);
+            max-height: 40vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            flex-shrink: 0;
+        }
+
+        .chat-form {
+            padding: 0.5rem;
+            padding-bottom: calc(0.5rem + var(--safe-area-inset-bottom));
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            align-items: stretch;
+        }
+
+        .form-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            min-width: 0;
+        }
+
+        label {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--foreground);
+            -webkit-user-select: none;
+            user-select: none;
+            line-height: 1;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.4rem 0.45rem;
+            border: 1px solid var(--input);
+            border-radius: 0.4rem;
+            background-color: var(--card);
+            color: var(--foreground);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            appearance: none;
+            padding-right: 1.6rem;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.2rem center;
+            background-size: 0.85rem;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        select:active {
+            background-color: var(--input);
+        }
+
+        select:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .send-btn-wrapper {
+            display: flex;
+            gap: 0.4rem;
+            align-items: center;
+            margin-top: 0.3rem;
+        }
+
+        .send-btn {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary) 100%);
+            filter: brightness(0.9);
+            color: var(--primary-foreground);
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);
+            -webkit-user-select: none;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .send-btn:active:not(:disabled) {
+            transform: scale(0.92);
+            box-shadow: 0 1px 3px rgba(16, 185, 129, 0.15);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .required-indicator {
+            color: var(--destructive);
+        }
+
+        .scrollable {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .scrollable::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .scrollable::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .scrollable::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 2px;
+        }
+
+        .scrollable::-webkit-scrollbar-thumb:hover {
+            background: var(--muted);
+        }
+
+        /* Native app feel */
+        html {
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            overscroll-behavior: none;
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+        select:focus {
+            outline: none;
+        }
+
+        /* iOS specific */
+        @supports (padding: max(0px)) {
+            .chat-header {
+                padding: max(0.8rem, env(safe-area-inset-top)) 0.8rem 0.8rem 0.8rem;
+            }
+            
+            .chat-form {
+                padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .chat-header {
+                min-height: 80px;
+            }
+
+            .header-content {
+                width: 100%;
+                flex-basis: 100%;
+            }
+
+            .chat-header h1 {
+                font-size: 1rem;
+            }
+
+            .header-buttons,
+            .header-left {
+                flex-basis: auto;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .return-btn,
+            .lang-btn,
+            .color-btn,
+            .theme-toggle {
+                width: 44px;
+                height: 44px;
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Smooth transitions */
+        * {
+            -webkit-transition-property: background-color, color, border-color;
+            -webkit-transition-duration: 0.3s;
+            -webkit-transition-timing-function: ease;
+        }
+
+        button, select {
+            -webkit-transition-property: transform, box-shadow, opacity;
+            -webkit-transition-duration: 0.2s;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script>
+        // ============================================
+        // APP PAGES
+        // ============================================
+        let currentPage = 'welcome';
+        let currentLanguage = 'en';
+        let currentColor = 'emerald';
+
+        // ============================================
+        // TRANSLATIONS
+        // ============================================
+
+        const translations = {
+            en: {
+                welcomeTitle: "Remedy Chat",
+                welcomeSubtitle: "Traditional Wellness Guidance",
+                fourTraditions: "🌍 Four Traditions",
+                fourTraditionsDesc: "African, Asian, Islamic, and Arabic traditional medicine wisdom in one app.",
+                learningTool: "💡 Learning Tool",
+                learningToolDesc: "Explore traditional wellness remedies for educational purposes.",
+                notMedicalAdvice: "⚕️ Not Medical Advice",
+                notMedicalAdviceDesc: "Always consult healthcare professionals for diagnosis and treatment.",
+                aboutBtn: "About Us",
+                privacyBtn: "Privacy",
+                getStarted: "Get Started →",
+                tradition: "Tradition",
+                concern: "Concern",
+                choose: "Choose...",
+                botWelcome: "🌿 Welcome to Remedy Chat\n\nI'm here to share traditional wellness wisdom from African, Asian, Islamic, and Arabic healing traditions.\n\nWhat kind of guidance are you seeking today?",
+                safetyWarning: "💡 Always consult with a healthcare professional before starting any remedy. These traditional remedies are educational and not medical substitutes.",
+                loading: "Remedy Chat",
+                loadingSubtext: "Loading traditional wisdom...",
+                aboutTitle: "About Us",
+                aboutText: "Remedy Chat is an educational application designed to share traditional wellness wisdom from four major healing traditions: African, Asian, Islamic, and Arabic medicine.",
+                mission: "Our Mission",
+                missionText: "We aim to provide accessible information about traditional remedies while emphasizing the importance of professional medical care.",
+                whatWeOffer: "What We Offer",
+                offer1: "Remedies from African traditional medicine",
+                offer2: "Asian Ayurvedic and herbal wisdom",
+                offer3: "Islamic traditional health practices",
+                offer4: "Arabic traditional healing knowledge",
+                offer5: "Support for 50+ health and beauty concerns",
+                offer6: "Dark/Light mode for comfortable reading",
+                disclaimer: "Important Disclaimer",
+                disclaimerText: "Remedy Chat provides educational information only. It is NOT a substitute for professional medical advice, diagnosis, or treatment.",
+                disclaimerText2: "Always consult with qualified healthcare professionals before starting any new remedy or treatment, especially for serious health conditions.",
+                safetyFirst: "Safety First",
+                safetyFirstText: "For sexually transmitted infections (STDs), medical emergencies, and serious health concerns, seek immediate professional medical care. Traditional remedies complement but never replace professional treatment.",
+                development: "Development",
+                developmentText: "This app was created to bring traditional wellness knowledge to a modern audience through an accessible, user-friendly platform.",
+                privacyTitle: "Privacy Policy",
+                lastUpdated: "Last Updated:",
+                dataCollection: "Data Collection",
+                dataCollectionText: "Remedy Chat does not collect any personal data. All information processing happens locally on your device.",
+                noAnalytics: "No Analytics",
+                noAnalyticsText: "We do not track your usage, location, or any personal information. Your privacy is completely protected.",
+                noThirdParty: "No Third-Party Sharing",
+                noThirdPartyText: "Your data is not shared with any third parties. No advertising networks or external services are used.",
+                offlineFirst: "Offline First",
+                offlineFirstText: "Remedy Chat works entirely offline. No data is sent to external servers. All remedy content is stored locally.",
+                localStorage: "Local Storage",
+                localStorageText: "We only store your theme preference (light/dark mode) in your browser's local storage for convenience.",
+                security: "Security",
+                securityText: "Since no data is collected or transmitted, there are no security risks from data breaches.",
+                privacyChanges: "Changes to Privacy Policy",
+                privacyChangesText: "We may update this privacy policy. Significant changes will be reflected in the \"Last Updated\" date.",
+                contact: "Contact",
+                contactText: "For privacy concerns, contact us through the app support channels.",
+                yourRights: "Your Rights",
+                yourRightsText: "Since we collect no data, you have complete control over your information usage at all times."
+            },
+            ar: {
+                welcomeTitle: "دردشة الأعشاب",
+                welcomeSubtitle: "إرشادات العافية التقليدية",
+                fourTraditions: "🌍 أربع تقاليد",
+                fourTraditionsDesc: "حكمة الطب التقليدي الأفريقي والآسيوي والإسلامي والعربي في تطبيق واحد.",
+                learningTool: "💡 أداة تعليمية",
+                learningToolDesc: "استكشف الأدوية التقليدية لأغراض تعليمية.",
+                notMedicalAdvice: "⚕️ ليس نصيحة طبية",
+                notMedicalAdviceDesc: "استشر متخصصي الرعاية الصحية دائماً للتشخيص والعلاج.",
+                aboutBtn: "معلومات عنا",
+                privacyBtn: "الخصوصية",
+                getStarted: "ابدأ الآن →",
+                tradition: "التقليد",
+                concern: "المشكلة",
+                choose: "اختر...",
+                botWelcome: "🌿 أهلا وسهلا بك في دردشة الأعشاب\n\nأنا هنا لمشاركة حكمة العافية التقليدية من التقاليد الأفريقية والآسيوية والإسلامية والعربية.\n\nما نوع الإرشادات التي تبحث عنها اليوم؟",
+                safetyWarning: "💡 استشر دائماً متخصصاً في الرعاية الصحية قبل بدء أي علاج. هذه الأدوية التقليدية تعليمية وليست بدائل طبية.",
+                loading: "دردشة الأعشاب",
+                loadingSubtext: "جاري تحميل الحكمة التقليدية...",
+                aboutTitle: "معلومات عنا",
+                aboutText: "دردشة الأعشاب هي تطبيق تعليمي مصمم لمشاركة حكمة العافية التقليدية من أربع تقاليد شفاء رئيسية: الطب الأفريقي والآسيوي والإسلامي والعربي.",
+                mission: "مهمتنا",
+                missionText: "نهدف إلى توفير معلومات يسهل الوصول إليها عن الأدوية التقليدية مع التأكيد على أهمية الرعاية الطبية المهنية.",
+                whatWeOffer: "ما نقدمه",
+                offer1: "أدوية من الطب التقليدي الأفريقي",
+                offer2: "حكمة الطب الآسيوي والأيورفيدا",
+                offer3: "ممارسات الصحة الإسلامية التقليدية",
+                offer4: "معرفة الشفاء التقليدية العربية",
+                offer5: "دعم أكثر من 50 مشكلة صحية وجمالية",
+                offer6: "وضع مظلم/فاتح للقراءة المريحة",
+                disclaimer: "إخلاء مسؤولية مهم",
+                disclaimerText: "دردشة الأعشاب توفر معلومات تعليمية فقط. وهي ليست بديلاً عن النصيحة الطبية المهنية أو التشخيص أو العلاج.",
+                disclaimerText2: "استشر دائماً متخصصي الرعاية الصحية المؤهلين قبل بدء أي علاج أو دواء جديد، خاصة للحالات الصحية الخطيرة.",
+                safetyFirst: "السلامة أولاً",
+                safetyFirstText: "لالتهابات المسالك البولية والحالات الطبية الطارئة والمشاكل الصحية الخطيرة، اطلب العناية الطبية المهنية الفورية. الأدوية التقليدية تكمل وليس تحل محل العلاج المهني.",
+                development: "التطوير",
+                developmentText: "تم إنشاء هذا التطبيق لجلب معرفة العافية التقليدية إلى الجمهور الحديث من خلال منصة يسهل الوصول إليها وسهلة الاستخدام.",
+                privacyTitle: "سياسة الخصوصية",
+                lastUpdated: "آخر تحديث:",
+                dataCollection: "جمع البيانات",
+                dataCollectionText: "دردشة الأعشاب لا تجمع أي بيانات شخصية. يتم معالجة جميع المعلومات محلياً على جهازك.",
+                noAnalytics: "بدون تحليلات",
+                noAnalyticsText: "نحن لا نتتبع استخدامك أو موقعك أو أي معلومات شخصية. خصوصيتك محمية تماماً.",
+                noThirdParty: "عدم مشاركة الطرف الثالث",
+                noThirdPartyText: "لا تتم مشاركة بياناتك مع أي أطراف ثالثة. لا تُستخدم شبكات إعلانية أو خدمات خارجية.",
+                offlineFirst: "الوضع غير المتصل أولاً",
+                offlineFirstText: "دردشة الأعشاب تعمل بالكامل بدون اتصال. لا يتم إرسال أي بيانات إلى خوادم خارجية.",
+                localStorage: "التخزين المحلي",
+                localStorageText: "نخزن فقط تفضيل المظهر الخاص بك (الوضع المظلم/الفاتح) في التخزين المحلي للمتصفح لسهولة الاستخدام.",
+                security: "الأمان",
+                securityText: "نظراً لأنه لا يتم جمع أو نقل أي بيانات، فإنه لا توجد مخاطر أمنية من خروقات البيانات.",
+                privacyChanges: "التغييرات على سياسة الخصوصية",
+                privacyChangesText: "قد نحدث سياسة الخصوصية هذه. ستنعكس التغييرات الكبيرة في تاريخ \"آخر تحديث\".",
+                contact: "التواصل",
+                contactText: "لمخاوف الخصوصية، اتصل بنا من خلال قنوات دعم التطبيق.",
+                yourRights: "حقوقك",
+                yourRightsText: "نظراً لأننا لا نجمع بيانات، فلديك السيطرة الكاملة على استخدام معلوماتك في جميع الأوقات."
+            },
+            fr: {
+                welcomeTitle: "Chat des Remèdes",
+                welcomeSubtitle: "Conseils de bien-être traditionnel",
+                fourTraditions: "🌍 Quatre traditions",
+                fourTraditionsDesc: "La sagesse de la médecine traditionnelle africaine, asiatique, islamique et arabe dans une seule application.",
+                learningTool: "💡 Outil d'apprentissage",
+                learningToolDesc: "Explorez les remèdes traditionnels à des fins éducatives.",
+                notMedicalAdvice: "⚕️ Pas un conseil médical",
+                notMedicalAdviceDesc: "Consultez toujours les professionnels de santé pour le diagnostic et le traitement.",
+                aboutBtn: "À propos",
+                privacyBtn: "Confidentialité",
+                getStarted: "Commencer →",
+                tradition: "Tradition",
+                concern: "Préoccupation",
+                choose: "Choisir...",
+                botWelcome: "🌿 Bienvenue à Chat des Remèdes\n\nJe suis ici pour partager la sagesse traditionnelle du bien-être des traditions africaine, asiatique, islamique et arabe.\n\nQuel type de conseils recherchez-vous aujourd'hui?",
+                safetyWarning: "💡 Consultez toujours un professionnel de santé avant de commencer un remède. Ces remèdes traditionnels sont éducatifs et non des substituts médicaux.",
+                loading: "Chat des Remèdes",
+                loadingSubtext: "Chargement de la sagesse traditionnelle...",
+                aboutTitle: "À propos de nous",
+                aboutText: "Chat des Remèdes est une application éducative conçue pour partager la sagesse du bien-être traditionnel de quatre principales traditions de guérison: médecine africaine, asiatique, islamique et arabe.",
+                mission: "Notre mission",
+                missionText: "Nous visons à fournir des informations accessibles sur les remèdes traditionnels tout en soulignant l'importance des soins médicaux professionnels.",
+                whatWeOffer: "Ce que nous offrons",
+                offer1: "Remèdes de la médecine traditionnelle africaine",
+                offer2: "Sagesse ayurvédique et herbes asiatiques",
+                offer3: "Pratiques de santé traditionnelles islamiques",
+                offer4: "Connaissances de guérison traditionnelle arabe",
+                offer5: "Soutien pour plus de 50 problèmes de santé et de beauté",
+                offer6: "Mode sombre/clair pour une lecture confortable",
+                disclaimer: "Clause de non-responsabilité importante",
+                disclaimerText: "Chat des Remèdes fournit uniquement des informations éducatives. Ce n'est pas un substitut aux conseils, diagnostics ou traitements médicaux professionnels.",
+                disclaimerText2: "Consultez toujours les professionnels de santé qualifiés avant de commencer un nouveau remède ou traitement, en particulier pour les conditions graves.",
+                safetyFirst: "La sécurité d'abord",
+                safetyFirstText: "Pour les infections, les urgences médicales et les problèmes de santé graves, demandez des soins médicaux professionnels immédiats. Les remèdes traditionnels complètent mais ne remplacent jamais le traitement professionnel.",
+                development: "Développement",
+                developmentText: "Cette application a été créée pour apporter la connaissance traditionnelle du bien-être à un public moderne grâce à une plateforme accessible et facile à utiliser.",
+                privacyTitle: "Politique de confidentialité",
+                lastUpdated: "Dernière mise à jour:",
+                dataCollection: "Collecte de données",
+                dataCollectionText: "Chat des Remèdes ne collecte aucune donnée personnelle. Tout traitement d'informations se fait localement sur votre appareil.",
+                noAnalytics: "Pas d'analyse",
+                noAnalyticsText: "Nous ne suivons pas votre utilisation, votre localisation ou aucune information personnelle. Votre confidentialité est complètement protégée.",
+                noThirdParty: "Pas de partage avec des tiers",
+                noThirdPartyText: "Vos données ne sont pas partagées avec des tiers. Aucune réseau publicitaire ni service externe n'est utilisé.",
+                offlineFirst: "Hors ligne en premier",
+                offlineFirstText: "Chat des Remèdes fonctionne entièrement hors ligne. Aucune donnée n'est envoyée à des serveurs externes.",
+                localStorage: "Stockage local",
+                localStorageText: "Nous stockons uniquement votre préférence de thème (mode sombre/clair) dans le stockage local du navigateur pour plus de commodité.",
+                security: "Sécurité",
+                securityText: "Puisqu'aucune donnée n'est collectée ou transmise, il n'y a aucun risque de sécurité lié aux violations de données.",
+                privacyChanges: "Modifications de la politique de confidentialité",
+                privacyChangesText: "Nous pouvons mettre à jour cette politique de confidentialité. Les modifications importantes seront reflétées dans la date \"Dernière mise à jour\".",
+                contact: "Contact",
+                contactText: "Pour les préoccupations en matière de confidentialité, contactez-nous via les canaux d'assistance de l'application.",
+                yourRights: "Vos droits",
+                yourRightsText: "Puisque nous ne collectons pas de données, vous avez le contrôle complet sur l'utilisation de vos informations à tout moment."
+            },
+            es: {
+                welcomeTitle: "Chat de Remedios",
+                welcomeSubtitle: "Guía de Bienestar Tradicional",
+                fourTraditions: "🌍 Cuatro tradiciones",
+                fourTraditionsDesc: "La sabiduría de la medicina tradicional africana, asiática, islámica y árabe en una sola aplicación.",
+                learningTool: "💡 Herramienta de aprendizaje",
+                learningToolDesc: "Explora remedios tradicionales con fines educativos.",
+                notMedicalAdvice: "⚕️ No es consejo médico",
+                notMedicalAdviceDesc: "Siempre consulta con profesionales de la salud para diagnóstico y tratamiento.",
+                aboutBtn: "Acerca de",
+                privacyBtn: "Privacidad",
+                getStarted: "Comenzar →",
+                tradition: "Tradición",
+                concern: "Preocupación",
+                choose: "Elegir...",
+                botWelcome: "🌿 Bienvenido a Chat de Remedios\n\nEstoy aquí para compartir la sabiduría tradicional del bienestar de las tradiciones africana, asiática, islámica y árabe.\n\n¿Qué tipo de orientación buscas hoy?",
+                safetyWarning: "💡 Siempre consulta con un profesional de la salud antes de comenzar un remedio. Estos remedios tradicionales son educativos y no son sustitutos médicos.",
+                loading: "Chat de Remedios",
+                loadingSubtext: "Cargando sabiduría tradicional...",
+                aboutTitle: "Acerca de nosotros",
+                aboutText: "Chat de Remedios es una aplicación educativa diseñada para compartir la sabiduría del bienestar tradicional de cuatro tradiciones principales de sanación: medicina africana, asiática, islámica y árabe.",
+                mission: "Nuestra misión",
+                missionText: "Nuestro objetivo es proporcionar información accesible sobre remedios tradicionales mientras enfatizamos la importancia de la atención médica profesional.",
+                whatWeOffer: "Lo que ofrecemos",
+                offer1: "Remedios de la medicina tradicional africana",
+                offer2: "Sabiduría ayurvédica y herbal asiática",
+                offer3: "Prácticas de salud tradicionales islámicas",
+                offer4: "Conocimiento de sanación tradicional árabe",
+                offer5: "Apoyo para más de 50 problemas de salud y belleza",
+                offer6: "Modo oscuro/claro para lectura cómoda",
+                disclaimer: "Descargo de responsabilidad importante",
+                disclaimerText: "Chat de Remedios proporciona información educativa únicamente. No es un sustituto del consejo, diagnóstico o tratamiento médico profesional.",
+                disclaimerText2: "Siempre consulta con profesionales de la salud calificados antes de comenzar un nuevo remedio o tratamiento, especialmente para condiciones graves.",
+                safetyFirst: "La seguridad primero",
+                safetyFirstText: "Para infecciones, emergencias médicas y problemas de salud graves, busca atención médica profesional inmediata. Los remedios tradicionales complementan pero nunca reemplazan el tratamiento profesional.",
+                development: "Desarrollo",
+                developmentText: "Esta aplicación fue creada para llevar el conocimiento tradicional del bienestar a una audiencia moderna a través de una plataforma accesible y fácil de usar.",
+                privacyTitle: "Política de privacidad",
+                lastUpdated: "Última actualización:",
+                dataCollection: "Recopilación de datos",
+                dataCollectionText: "Chat de Remedios no recopila datos personales. Todo el procesamiento de información ocurre localmente en tu dispositivo.",
+                noAnalytics: "Sin analítica",
+                noAnalyticsText: "No rastreamos tu uso, ubicación ni información personal. Tu privacidad está completamente protegida.",
+                noThirdParty: "Sin compartir con terceros",
+                noThirdPartyText: "Tus datos no se comparten con terceros. No se utilizan redes publicitarias ni servicios externos.",
+                offlineFirst: "Primero sin conexión",
+                offlineFirstText: "Chat de Remedios funciona completamente sin conexión. No se envían datos a servidores externos.",
+                localStorage: "Almacenamiento local",
+                localStorageText: "Solo almacenamos tu preferencia de tema (modo oscuro/claro) en el almacenamiento local del navegador para conveniencia.",
+                security: "Seguridad",
+                securityText: "Como no se recopilan ni transmiten datos, no hay riesgos de seguridad por violaciones de datos.",
+                privacyChanges: "Cambios en la política de privacidad",
+                privacyChangesText: "Podemos actualizar esta política de privacidad. Los cambios significativos se reflejarán en la fecha \"Última actualización\".",
+                contact: "Contacto",
+                contactText: "Para preocupaciones de privacidad, contáctanos a través de los canales de soporte de la aplicación.",
+                yourRights: "Tus derechos",
+                yourRightsText: "Como no recopilamos datos, tienes control total sobre el uso de tu información en todo momento."
+            },
+            ko: {
+                welcomeTitle: "치료법 채팅",
+                welcomeSubtitle: "전통적 웰니스 안내",
+                fourTraditions: "🌍 네 가지 전통",
+                fourTraditionsDesc: "아프리카, 아시아, 이슬람 및 아랍 전통 의학의 지혜를 하나의 앱에 담았습니다.",
+                learningTool: "💡 학습 도구",
+                learningToolDesc: "교육 목적으로 전통 치료법을 탐색하세요.",
+                notMedicalAdvice: "⚕️ 의료 조언 아님",
+                notMedicalAdviceDesc: "진단 및 치료를 위해 항상 의료 전문가와 상담하세요.",
+                aboutBtn: "정보",
+                privacyBtn: "개인정보",
+                getStarted: "시작하기 →",
+                tradition: "전통",
+                concern: "증상",
+                choose: "선택...",
+                botWelcome: "🌿 치료법 채팅에 오신 것을 환영합니다\n\n아프리카, 아시아, 이슬람 및 아랍 전통의 전통적 웰니스 지혜를 공유하고 있습니다.\n\n오늘 어떤 안내를 찾고 계신가요?",
+                safetyWarning: "💡 치료법을 시작하기 전에 항상 의료 전문가와 상담하세요. 이 전통 치료법은 교육용이며 의료 대체재가 아닙니다.",
+                loading: "치료법 채팅",
+                loadingSubtext: "전통 지혜 로딩 중...",
+                aboutTitle: "정보",
+                aboutText: "치료법 채팅은 아프리카, 아시아, 이슬람 및 아랍 의학의 네 가지 주요 치유 전통에서 전통적 웰니스 지혜를 공유하도록 설계된 교육 애플리케이션입니다.",
+                mission: "우리의 사명",
+                missionText: "우리는 전통 치료법에 대한 접근 가능한 정보를 제공하면서 전문 의료 관리의 중요성을 강조하는 것을 목표로 합니다.",
+                whatWeOffer: "제공하는 것",
+                offer1: "아프리카 전통 의학의 치료법",
+                offer2: "아시아 아유르베다 및 약초 지혜",
+                offer3: "이슬람 전통 건강 관행",
+                offer4: "아랍 전통 치유 지식",
+                offer5: "50개 이상의 건강 및 미용 문제 지원",
+                offer6: "편안한 읽기를 위한 어두운/밝은 모드",
+                disclaimer: "중요한 면책 조항",
+                disclaimerText: "치료법 채팅은 교육 정보만 제공합니다. 이는 전문 의료 조언, 진단 또는 치료의 대체재가 아닙니다.",
+                disclaimerText2: "특히 심각한 건강 상태의 경우 새로운 치료법이   치료를 시작하기 전에 항상 자격 있는 의료 전문가와 상담하세요.",
+                safetyFirst: "안전 우선",
+                safetyFirstText: "감염, 의료 응급 및 심각한 건강 문제의 경우 즉시 전문 의료 처치를 받으세요. 전통 치료법은 보완하지만 전문 치료를 대체하지 않습니다.",
+                development: "개발",
+                developmentText: "이 애플리케이션은 접근 가능하고 사용하기 쉬운 플랫폼을 통해 현대 관객에게 전통적 웰니스 지식을 제공하기 위해 만들어졌습니다.",
+                privacyTitle: "개인정보 보호정책",
+                lastUpdated: "마지막 업데이트:",
+                dataCollection: "데이터 수집",
+                dataCollectionText: "치료법 채팅은 개인 데이터를 수집하지 않습니다. 모든 정보 처리는 기기에서 로컬로 진행됩니다.",
+                noAnalytics: "분석 없음",
+                noAnalyticsText: "우리는 사용, 위치 또는 개인 정보를 추적하지 않습니다. 귀하의 개인정보는 완전히 보호됩니다.",
+                noThirdParty: "제3자 공유 없음",
+                noThirdPartyText: "귀하의 데이터는 제3자와 공유되지 않습니다. 광고 네트워크나 외부 서비스를 사용하지 않습니다.",
+                offlineFirst: "오프라인 우선",
+                offlineFirstText: "치료법 채팅은 완전히 오프라인에서 작동합니다. 외부 서버로 데이터를 전송하지 않습니다.",
+                localStorage: "로컬 저장소",
+                localStorageText: "편의를 위해 브라우저의 로컬 저장소에만 테마 선호도(어두운/밝은 모드)를 저장합니다.",
+                security: "보안",
+                securityText: "데이터가 수집되거나 전송되지 않으므로 데이터 위반으로 인한 보안 위험이 없습니다.",
+                privacyChanges: "개인정보 보호정책 변경",
+                privacyChangesText: "이 개인정보 보호정책을 업데이트할 수 있습니다. 중요한 변경 사항은 \"마지막 업데이트\" 날짜에 반영됩니다.",
+                contact: "연락처",
+                contactText: "개인정보 보호 문제는 앱 지원 채널을 통해 문의하세요.",
+                yourRights: "귀하의 권리",
+                yourRightsText: "우리는 데이터를 수집하지 않으므로 항상 정보 사용에 대한 완전한 제어권을 가집니다."
+            },
+            fa: {
+                welcomeTitle: "دردشة درمان",
+                welcomeSubtitle: "راهنمای سلامتی سنتی",
+                fourTraditions: "🌍 چهار سنت",
+                fourTraditionsDesc: "حکمت پزشکی سنتی آفریقایی، آسیایی، اسلامی و عربی در یک برنامه.",
+                learningTool: "💡 ابزار یادگیری",
+                learningToolDesc: "داروهای سنتی را برای اهداف آموزشی کاوش کنید.",
+                notMedicalAdvice: "⚕️ مشاوره پزشکی نیست",
+                notMedicalAdviceDesc: "همیشه برای تشخیص و درمان با متخصصین سلامت مشورت کنید.",
+                aboutBtn: "درباره ما",
+                privacyBtn: "حریم خصوصی",
+                getStarted: "شروع کنید →",
+                tradition: "سنت",
+                concern: "مشکل",
+                choose: "انتخاب...",
+                botWelcome: "🌿 خوش آمدید به دردشة درمان\n\nمن اینجا هستم تا حکمت سلامتی سنتی از سنت های آفریقایی، آسیایی، اسلامی و عربی را با شما به اشتراک بگذارم.\n\nامروز چه راهنمایی را می خواهید؟",
+                safetyWarning: "💡 قبل از شروع هر درمان همیشه با متخصص سلامت مشورت کنید. این داروهای سنتی آموزشی بوده و جایگزین پزشکی نیستند.",
+                loading: "دردشة درمان",
+                loadingSubtext: "درحال بارگذاری حکمت سنتی...",
+                aboutTitle: "درباره ما",
+                aboutText: "دردشة درمان یک برنامة آموزشی است که برای به اشتراک گذاری حکمت سلامتی سنتی از چهار سنت درمان اصلی طراحی شده است: پزشکی آفریقایی، آسیایی، اسلامی و عربی.",
+                mission: "ماموریت ما",
+                missionText: "هدف ما ارائة اطلاعات قابل دسترس در مورد داروهای سنتی است در حالی که بر اهمیت مراقبت پزشکی حرفه ای تأکید می کنیم.",
+                whatWeOffer: "آنچه ما ارائه می دهیم",
+                offer1: "داروهای پزشکی سنتی آفریقایی",
+                offer2: "حکمت آیورودا و گیاهی آسیایی",
+                offer3: "شیوه های سلامتی سنتی اسلامی",
+                offer4: "دانش درمان سنتی عربی",
+                offer5: "پشتیبانی برای بیش از 50 مشکل سلامتی و زیبایی",
+                offer6: "حالت تاریک / روشن برای خواندن راحت",
+                disclaimer: "سلب مسئولیت مهم",
+                disclaimerText: "دردشة درمان فقط اطلاعات آموزشی را ارائه می دهد. این جایگزین مشاوره، تشخیص یا درمان پزشکی حرفه ای نیست.",
+                disclaimerText2: "قبل از شروع هر درمان یا داروی جدید، به خصوص برای شرایط سلامتی جدی، همیشه با متخصصین سلامت واجد شرایط مشورت کنید.",
+                safetyFirst: "ایمنی در اول",
+                safetyFirstText: "برای عفونت ها، اورژانس های پزشکی و مشاکل سلامتی جدی، فوراً از مراقبت پزشکی حرفه ای کمک بگیرید. داروهای سنتی تکمیل می کنند اما هرگز درمان حرفه ای را جایگزین نمی کنند.",
+                development: "توسعه",
+                developmentText: "این برنامه برای آوردن دانش سلامتی سنتی برای مخاطبین امروزی از طریق یک پلتفرم قابل دسترس و آسان استفاده ایجاد شد.",
+                privacyTitle: "سیاست حریم خصوصی",
+                lastUpdated: "آخرین بروزرسانی:",
+                dataCollection: "جمع آوری داده ها",
+                dataCollectionText: "دردشة درمان هیچ داده شخصی را جمع آوری نمی کند. تمام پردازش اطلاعات به صورت محلی بر روی دستگاه شما انجام می شود.",
+                noAnalytics: "بدون تجزیه و تحلیل",
+                noAnalyticsText: "ما استفاده، موقعیت یا هیچ اطلاعات شخصی را ردگیری نمی کنیم. حریم خصوصی شما کاملا محفوظ است.",
+                noThirdParty: "بدون اشتراک گذاری از طرف ثالث",
+                noThirdPartyText: "داده های شما با شخص ثالث به اشتراک گذاری نمی شود. شبکه های تبلیغاتی یا خدمات خارجی استفاده نمی شود.",
+                offlineFirst: "اولویت آفلا  ن",
+                offlineFirstText: "دردشة درمان کاملا به صورت آفلاین کار می کند. هیچ داده ای برای سرورهای خارجی ارسال نمی شود.",
+                localStorage: "ذخیره سازی   حلی",
+                localStorageText: "ما فقط تنظیمات تم (حالت تاریک / روشن) را برای راحتی در ذخیره سازی محلی مرورگر ذخیره می کنیم.",
+                security: "امنیت",
+                securityText: "از آنجا که هیچ داده ای جمع آوری یا منتقل نمی شود، هیچ ریسک امنیتی برای نقض داده ها وجود ندارد.",
+                privacyChanges: "تغییرات در سیاست حریم خصوصی",
+                privacyChangesText: "ما می توانیم این سیاست حریم خصوصی را به روز کنیم. تغییرات قابل توجه در تاریخ \"آخرین بروزرسانی\" منعکس می شود.",
+                contact: "تماس",
+                contactText: "برای مسائل حریم خصوصی، از طریق کانال های پشتیبانی برنامه با ما تماس بگیرید.",
+                yourRights: "حقوق شما",
+                yourRightsText: "از آنجا که ما داده ای جمع آوری نمی کنیم، شما در تمام اوقات کنترل کامل بر استفاده از اطلاعات خود دارید."
+            }
+        };
+
+        const remediesTranslations = {
+            ar: {
+                "allergies": "العسل المحلي قد يقلل التفاعلات. الأطعمة الغنية بالكيرسيتين مثل البصل تساعد.",
+                "flu": "استخدم شاي الزنجبيل مع العسل والليمون. الثوم له خصائص مضادة للميكروبات. الراحة والبقاء رطباً ضروري. الطب الأفريقي يقترح مستخلصات البيلسان.",
+            },
+            fr: {
+                "allergies": "Le miel local peut réduire les réactions. Les aliments riches en quercétine comme les oignons aident.",
+                "flu": "Utilisez du thé au gingembre avec du miel et du citron. L'ail a des propriétés antimicrobiennes. Reposez-vous et restez hydraté.",
+            },
+            es: {
+                "allergies": "La miel local puede reducir las reacciones. Los alimentos ricos en quercetina como las cebollas ayudan.",
+                "flu": "Usa té de jengibre con miel y limón. El ajo tiene propiedades antimicrobianas. Descansa y mantente hidratado.",
+            },
+            ko: {
+                "allergies": "지역 꿀은 반응을 줄일 수 있습니다. 양파와 같은 케르세틴이 풍부한 음식이 도움됩니다.",
+                "flu": "생강차에 꿀과 레몬을 섞어 사용하세요. 마늘은 항균 특성이 있습니다. 휴식을 취하고 수분을 유지하세요.",
+            },
+            fa: {
+                "allergies": "عسل محلی ممکن است واکنش ها را کاهش دهد. مواد غذایی غنی شده از کوئر  یتین مانند پیاز کمک می کند.",
+                "flu": "از چای زنجبیل با عسل و لیمو استفاده کنید. سیر دارای خصوصیات ضد میکروبی است. استراحت و ماندن آبی ضروری است.",
+            }
+        };
+
+        // ============================================
+        // THEME MANAGEMENT
+        // ============================================
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('remedy-theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+
+            const savedColor = localStorage.getItem('remedy-color') || 'emerald';
+            currentColor = savedColor;
+            document.documentElement.setAttribute('data-color', savedColor);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('remedy-theme', newTheme);
+            renderApp();
+        }
+
+        function changeColor(color) {
+            currentColor = color;
+            document.documentElement.setAttribute('data-color', color);
+            localStorage.setItem('remedy-color', color);
+            appState.colorMenuOpen = false;
+            renderApp();
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('remedy-language', lang);
+            appState.langMenuOpen = false;
+            renderApp();
+        }
+
+        function t(key) {
+            return translations[currentLanguage]?.[key] || translations['en'][key] || key;
+        }
+
+        function getRemedyContent(tradition, concern) {
+            let advice = remedies[tradition]?.[concern];
+            
+            if (!advice) {
+                return "Please rest, stay hydrated, and consult a healthcare professional.";
+            }
+
+            if (currentLanguage !== 'en' && remediesTranslations[currentLanguage] && remediesTranslations[currentLanguage][concern]) {
+                advice = remediesTranslations[currentLanguage][concern];
+            }
+
+            if (concern === "STD") {
+                return advice;
+            }
+
+            return `${advice}\n\n${t('safetyWarning')}`;
+        }
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (e) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // ============================================
+        // REMEDY DATA & CONFIGURATION
+        // ============================================
+
+        const TRADITIONS = ["African", "Asian", "Islamic", "Arabic"];
+
+        const CONCERNS = [
+            "STD",
+            "flu",
+            "acne",
+            "anxiety",
+            "stress",
+            "fatigue",
+            "weight loss",
+            "headache",
+            "sore throat",
+            "digestion",
+            "sleep",
+            "cramps",
+            "cough",
+            "fever",
+            "cold",
+            "sinus congestion",
+            "allergies",
+            "nausea",
+            "constipation",
+            "diarrhea",
+            "heartburn",
+            "toothache",
+            "back pain",
+            "joint pain",
+            "dry skin",
+            "eczema",
+            "dandruff",
+            "hair loss",
+            "minor cuts",
+            "minor burns",
+            "dehydration",
+            "blood pressure support",
+            "blood sugar support",
+            "menstrual support",
+            "immune support",
+            "insomnia",
+            "migraine",
+            "muscle soreness",
+            "inflammation",
+            "bloating",
+            "food poisoning",
+            "common cold",
+            "sore eyes",
+            "ear pain",
+            "mouth ulcers",
+            "psoriasis",
+            "vitiligo",
+            "skin care",
+            "teeth care",
+            "nails care",
+            "hair care"
+        ];
+
+        const remedies = {
+            African: {
+                "STD": "⚠️ Medical Note: STDs require professional medical care.\n\nTraditional supportive approaches:\n• Ginger and garlic tea boosts immune response\n• Turmeric with honey strengthens immunity\n• Moringa leaf tea provides vital nutrients\n• Adequate rest and hydration\n• Nutritious diet with vegetables\n\nIMPORTANT: You must see a doctor for testing, diagnosis, and treatment. Inform partners for their health.",
+                "flu": "Use ginger tea with honey and lemon. Garlic has antimicrobial properties. Rest and stay hydrated. African medicine suggests elderberry extracts.",
+                "acne": "Apply tea tree oil or neem oil topically. Turmeric paste with coconut oil reduces inflammation. Drink plenty of water.",
+                "anxiety": "Chamomile and lavender tea promote relaxation. Practice deep breathing. Ashwagandha root tea calms the nervous system.",
+                "stress": "Lemongrass tea is calming. Meditation and deep breathing help. Spend time in nature.",
+                "fatigue": "Ginseng root decoction boosts energy. Ensure adequate sleep and nutrition. B-vitamins through whole grains help.",
+                "weight loss": "Drink green tea regularly. Include whole grains, legumes, vegetables. Exercise regularly.",
+                "headache": "Peppermint tea relieves tension headaches. Apply warm compress. Stay hydrated.",
+                "sore throat": "Gargle with warm salt water. Honey and ginger tea soothes. Slippery elm bark helps.",
+                "digestion": "Ginger and fennel tea aid digestion. Eat slowly and chew thoroughly.",
+                "sleep": "Passionflower tea promotes sleep. Avoid caffeine after 2 PM. Keep consistent sleep schedule.",
+                "cramps": "Ginger or cinnamon tea eases cramps. Apply heat. Magnesium-rich foods like pumpkin seeds help.",
+                "cough": "Honey and thyme tea. Garlic has expectorant properties. Stay hydrated.",
+                "fever": "Willow bark tea reduces fever. Cool compresses on forehead. Ensure hydration.",
+                "cold": "Elderberry syrup boosts immunity. Vitamin C from citrus. Rest and hydration.",
+                "sinus congestion": "Steam inhalation with eucalyptus oil. Ginger and horseradish decongest. Stay hydrated.",
+                "allergies": "Local honey may reduce reactions. Quercetin-rich foods like onions help.",
+                "nausea": "Ginger tea is highly effective. Mint tea helps. Eat small, frequent meals.",
+                "constipation": "Drink plenty of water. Flaxseeds and chia seeds add fiber. Prune juice helps.",
+                "diarrhea": "Ginger and turmeric tea restore balance. Eat bland foods like rice and bananas.",
+                "heartburn": "Aloe vera juice soothes. Avoid spicy foods. Eat smaller meals.",
+                "toothache": "Clove oil provides relief. Salt water rinse helps. See a dentist.",
+                "back pain": "Turmeric with ginger reduces inflammation. Apply heat. Gentle stretching helps.",
+                "joint pain": "Ginger and turmeric tea reduces inflammation. Warm compresses help.",
+                "dry skin": "Coconut oil or shea butter moisturizes. Drink plenty of water.",
+                "eczema": "Coconut or neem oil helps. Turmeric paste reduces inflammation.",
+                "dandruff": "Tea tree oil with coconut oil. Apple cider vinegar rinse. Avoid stress.",
+                "hair loss": "Massage scalp with neem oil. Eat protein-rich foods. Reduce stress.",
+                "minor cuts": "Clean with salt water. Apply honey for protection. Turmeric paste helps.",
+                "minor burns": "Cool water immediately. Aloe vera gel soothes and heals.",
+                "dehydration": "Drink water frequently. Coconut water replenishes electrolytes.",
+                "blood pressure support": "Garlic reduces blood pressure. Hibiscus tea is beneficial. Exercise and reduce sodium.",
+                "blood sugar support": "Cinnamon helps regulate. Fenugreek seeds are traditional.",
+                "menstrual support": "Ginger tea eases cramps. Turmeric reduces inflammation. Iron-rich foods help.",
+                "immune support": "Elderberry, echinacea, astragalus boost immunity. Garlic and ginger essential.",
+                "insomnia": "Passionflower tea. Warm milk with honey. Consistent sleep schedule.",
+                "migraine": "Feverfew tea. Cool compress on forehead. Dark, quiet room.",
+                "muscle soreness": "Turmeric and ginger tea. Massage with oils. Rest adequately.",
+                "inflammation": "Ginger and turmeric combination. Anti-inflammatory diet. Rest.",
+                "bloating": "Ginger and fennel tea. Peppermint aids. Light walking helps.",
+                "food poisoning": "Ginger tea. Activated charcoal. Stay hydrated. See doctor if severe.",
+                "common cold": "Garlic and ginger soup. Vitamin C foods. Rest and hydration.",
+                "sore eyes": "Chamomile compress. Avoid screens. Rest eyes. See doctor if persistent.",
+                "ear pain": "Warm sesame oil drops. Ginger tea. Avoid loud noise.",
+                "mouth ulcers": "Honey application. Salt water rinse. Avoid spicy foods.",
+                "psoriasis": "Turmeric paste. Coconut oil. Anti-inflammatory diet.",
+                "vitiligo": "Ginger and turmeric. Vitamin B12 foods. Sunscreen daily.",
+                "skin care": "Use shea butter or coconut oil daily. Neem oil for cleansing. Turmeric masks for glow. Drink plenty of water. Avoid harsh soaps.",
+                "teeth care": "Clove oil strengthens gums. Miswak stick traditional cleaning. Salt water rinses. Avoid sugary foods. Chew herbs like neem.",
+                "nails care": "Massage with coconut or castor oil. Eat protein-rich foods. Keep nails dry. Avoid harsh chemicals. Biotin from foods helps.",
+                "hair care": "Neem oil treatments strengthen hair. Coconut oil deep conditioning. Massage scalp regularly. Eat leafy greens. Avoid heat styling."
+            },
+            Asian: {
+                "STD": "⚠️ Medical Note: STDs require professional medical care.\n\nTraditional supportive approaches:\n• Ginseng strengthens vital energy (Qi)\n• Goji berries nourish and support\n• Astragalus boosts immune function\n• Reishi mushroom supports resilience\n• Adequate rest and hydration\n\nIMPORTANT: You must see a doctor for testing, diagnosis, and treatment. Inform partners for their health.",
+                "flu": "Ginger and turmeric soup with broth. Garlic and onions have antiviral properties. Rest.",
+                "acne": "Green tea reduces sebum. Turmeric masks traditional. Witch hazel balances skin.",
+                "anxiety": "Meditation and tai chi. Ginseng supports nervous system. Jasmine tea calms.",
+                "stress": "Yoga or tai chi practice. Ashwagandha is traditional. Breathing exercises help.",
+                "fatigue": "Ginseng root tea boosts energy. Astragalus helps. Adequate sleep crucial.",
+                "weight loss": "Green tea increases metabolism. Tai chi exercise. Reduce white rice.",
+                "headache": "Acupressure at temples. Chrysanthemum flower tea. Rest quietly.",
+                "sore throat": "Honey and ginger tea. Licorice root traditional. Warm salt water gargles.",
+                "digestion": "Ginger aids stomach. Fennel seeds after meals. Eat mindfully.",
+                "sleep": "Jujube tea calms. Acupuncture may help. Consistent sleep times.",
+                "cramps": "Ginger and cinnamon tea. Apply heat with moxa. Acupressure helps.",
+                "cough": "Honey and pear soup. Fritillaria bulb decoction. Avoid dairy.",
+                "fever": "Honeysuckle and forsythia tea. Reduce inflammatory foods. Stay hydrated.",
+                "cold": "Ginger, garlic, scallion soup. Vitamin C essential. Rest.",
+                "sinus congestion": "Acupressure relief. Ginger steam. Avoid cold foods.",
+                "allergies": "Chrysanthemum and goji tea. Local honey may help.",
+                "nausea": "Ginger most effective. Acupressure wrist point. Mint tea.",
+                "constipation": "Prune juice traditional. Increase fiber. Warm liquids morning.",
+                "diarrhea": "Ginger and rice soup. Avoid fatty foods. Electrolytes important.",
+                "heartburn": "Licorice root tea. Smaller meals. Avoid spicy foods.",
+                "toothache": "Clove oil applied. Salt water rinse. See dentist.",
+                "back pain": "Turmeric and ginger. Acupuncture effective. Gentle stretching.",
+                "joint pain": "Angelica root decoction. Ginger and turmeric reduce. Warmth soothes.",
+                "dry skin": "Sesame oil deep moisture. Moistening foods like pears.",
+                "eczema": "Turmeric reduces inflammation. Sesame oil soothes.",
+                "dandruff": "Sesame oil massage. Avoid stress. Herbal rinses.",
+                "hair loss": "Ginseng and goji berries. Scalp massage. Reduce stress.",
+                "minor cuts": "Honey healing. Turmeric paste antimicrobial. Keep clean.",
+                "minor burns": "Cool water first. Aloe vera. Keep clean and protected.",
+                "dehydration": "Water with ginger. Herbal soups. Coconut water.",
+                "blood pressure support": "Garlic and ginger. Tai chi practice. Reduce sodium.",
+                "blood sugar support": "Bitter melon tea. Ginseng aids. Exercise regular.",
+                "menstrual support": "Ginger and turmeric ease. Red dates support. Rest.",
+                "immune support": "Ginseng immunity boost. Goji berries nutrient-dense. Reishi mushroom.",
+                "insomnia": "Jujube tea. Acupuncture. Consistent schedule.",
+                "migraine": "Acupressure points. Ginger tea. Cool compress.",
+                "muscle soreness": "Ginger turmeric tea. Massage. Rest.",
+                "inflammation": "Turmeric ginger combination. Anti-inflammatory diet.",
+                "bloating": "Ginger fennel tea. Peppermint. Light walking.",
+                "food poisoning": "Ginger strong. Herbal remedies. Hydration. Doctor if severe.",
+                "common cold": "Ginger garlic soup. Vitamin C. Rest hydration.",
+                "sore eyes": "Chrysanthemum tea compress. Rest eyes. Doctor if persistent.",
+                "ear pain": "Warm ginger oil. Acupressure. Avoid loud noise.",
+                "mouth ulcers": "Herbal rinse. Honey. Avoid spicy.",
+                "psoriasis": "Turmeric paste. Herbal oil. Anti-inflammatory diet.",
+                "vitiligo": "Ginger turmeric. B12 foods. Sunscreen protection.",
+                "skin care": "Ginseng essence brightens. Green tea antioxidants. Sesame oil nourishes. Jade roller massage. Consistent routine.",
+                "teeth care": "Herbal tooth powders. Ginger massage gums. Chew stimulans. Green tea rinses. Avoid extreme temperatures.",
+                "nails care": "Goji berries strengthen. Biotin-rich foods. Oil massage. Avoid harsh tools. Regular care.",
+                "hair care": "Ginseng promotes growth. Sesame oil treatments. Scalp acupressure. Avoid stress. Herbal rinses."
+            },
+            Islamic: {
+                "STD": "⚠️ Medical Note: STDs require professional medical care.\n\nTraditional supportive approaches:\n• Black seed (Nigella sativa) valued\n• Honey immune support\n• Prayer and spiritual wellness\n• Adequate rest and hydration\n• Halal nutritious diet\n\nIMPORTANT: Seeking medical care is a religious duty. See a doctor for testing, diagnosis, and treatment.",
+                "flu": "Black seed powerful immune properties. Honey and ginger tea. Stay hydrated.",
+                "acne": "Rose water cleanses gently. Honey masks beneficial.",
+                "anxiety": "Prayer brings peace. Dates provide comfort. Meditation.",
+                "stress": "Prayer and mindfulness. Dates naturally calm. Family time.",
+                "fatigue": "Dates natural energy. Black seed oil vitality. Rest.",
+                "weight loss": "Olive oil metabolism. Dates moderation. Exercise.",
+                "headache": "Rose water cooling. Peppermint tea. Rest quiet.",
+                "sore throat": "Honey highly valued. Ginger lemon tea. Warm liquids.",
+                "digestion": "Dates aid digestion. Ginger cumin tea. Deliberate eating.",
+                "sleep": "Dates before sleep. Prayer peace. Regular times.",
+                "cramps": "Ginger cinnamon tea. Warm compresses. Dates minerals.",
+                "cough": "Black seed syrup honey. Thyme tea. Stay hydrated.",
+                "fever": "Olive oil application. Cool herbal tea. Rest.",
+                "cold": "Black seed powerful immunity. Garlic ginger. Vitamin C.",
+                "sinus congestion": "Steam inhalation herbs. Eucalyptus opens. Hydration.",
+                "allergies": "Local honey reactions. Black seed oil. Avoid triggers.",
+                "nausea": "Ginger effective. Dates comfort. Mint tea.",
+                "constipation": "Dates natural laxatives. Water regular. Olive oil.",
+                "diarrhea": "Ginger rice water. Dates nutrients. Hydrated.",
+                "heartburn": "Milk honey soothes. Avoid spicy. Smaller meals.",
+                "toothache": "Clove oil effective. Turmeric rinse. Dentist.",
+                "back pain": "Olive oil massage. Ginger inflammation. Stretching.",
+                "joint pain": "Black seed oil inflammation. Ginger turmeric. Warmth.",
+                "dry skin": "Olive oil deep. Rose water hydration.",
+                "eczema": "Olive oil reduces. Rose water soothes.",
+                "dandruff": "Olive oil massage. Stress avoid. Regular washing.",
+                "hair loss": "Black seed oil hair. Scalp massage. Stress reduce.",
+                "minor cuts": "Honey healing powerful. Keep clean.",
+                "minor burns": "Cool water first. Honey aloe. Protected.",
+                "dehydration": "Water regularly. Dates minerals. Herbal tea.",
+                "blood pressure support": "Garlic pressure. Prayer calm. Salt reduce.",
+                "blood sugar support": "Dates moderation balance. Black seed. Exercise.",
+                "menstrual support": "Ginger cramps. Iron foods. Dates wellness.",
+                "immune support": "Black seed immunity valued. Dates nutrition. Prayer.",
+                "insomnia": "Dates sleep. Prayer peace. Consistent schedule.",
+                "migraine": "Prayer relief. Rose water cool. Dark room.",
+                "muscle soreness": "Olive oil massage. Ginger tea. Rest.",
+                "inflammation": "Black seed ginger. Anti-inflammatory diet.",
+                "bloating": "Ginger fennel tea. Dates. Light walking.",
+                "food poisoning": "Ginger strong. Herbal remedies. Hydration. Doctor if severe.",
+                "common cold": "Black seed garlic. Ginger. Vitamin C. Rest hydration.",
+                "sore eyes": "Rose water compress. Rest eyes. Doctor if persistent.",
+                "ear pain": "Warm olive oil. Prayer. Avoid loud noise.",
+                "mouth ulcers": "Honey application. Salt rinse. Avoid spicy.",
+                "psoriasis": "Turmeric olive. Herbal oil. Anti-inflammatory.",
+                "vitiligo": "Black seed ginger. B12 foods. Sunscreen daily.",
+                "skin care": "Rose water toner. Honey masks weekly. Olive oil moisturizer. Black seed oil treatments. Prayer and gratitude.",
+                "teeth care": "Miswak stick brushing. Rose water rinses. Clove oil. Avoid sweet drinks. Regular maintenance.",
+                "nails care": "Black seed oil massage. Henna strengthens. Olive oil treatments. Iron-rich diet. Regular trimming.",
+                "hair care": "Black seed oil therapy. Rose water rinses. Henna natural color. Scalp massage. Avoid harsh products."
+            },
+            Arabic: {
+                "STD": "⚠️ Medical Note: STDs require professional medical care.\n\nTraditional supportive approaches:\n• Fenugreek boosts immune function\n• Dates and honey strengthen body\n• Garlic and ginger powerful immune support\n• Rest and proper hydration essential\n• Nutritious whole foods diet\n\nIMPORTANT: Professional medical care is mandatory. See a doctor for testing, diagnosis, and proper treatment.",
+                "flu": "Fenugreek tea boosts immunity. Honey and dates provide energy. Garlic soup strengthens defenses. Rest thoroughly.",
+                "acne": "Rose water cleansing ritual. Henna masks reduce inflammation. Olive oil moisturizing treatment.",
+                "anxiety": "Prayer calms the spirit. Chamomile and rose tea soothe. Deep breathing exercises help.",
+                "stress": "Mindfulness and prayer. Dates provide comfort. Spend time with family.",
+                "fatigue": "Dates boost natural energy. Fenugreek tea revitalizes. Ensure adequate sleep.",
+                "weight loss": "Olive oil in moderation. Dates satisfy cravings. Regular walking exercise.",
+                "headache": "Rose water compress cool. Peppermint tea relief. Dark quiet environment.",
+                "sore throat": "Honey highly valued remedy. Ginger lemon tea soothing. Warm herbal liquids.",
+                "digestion": "Dates aid stomach. Fenugreek cumin tea aids. Mindful eating practice.",
+                "sleep": "Warm milk with honey. Dates before sleep. Consistent bedtime.",
+                "cramps": "Ginger cinnamon tea effective. Warm compress application. Dates minerals help.",
+                "cough": "Honey powerful remedy. Black seed syrup. Thyme tea soothing.",
+                "fever": "Cool herbal teas help. Olive oil application. Complete rest needed.",
+                "cold": "Garlic and ginger soup. Fenugreek tea. Vitamin C foods essential.",
+                "sinus congestion": "Steam inhalation therapy. Eucalyptus oil opens. Stay hydrated.",
+                "allergies": "Local honey reduces reactions. Avoid known triggers. Rose water soothes.",
+                "nausea": "Ginger most effective. Dates comfort stomach. Mint tea aids.",
+                "constipation": "Dates natural solution. Water intake regular. Olive oil helps.",
+                "diarrhea": "Ginger rice soup. Dates provide nutrients. Hydration critical.",
+                "heartburn": "Milk honey soothes. Avoid spicy foods. Smaller portions.",
+                "toothache": "Clove oil relief. Turmeric rinse. Dental visit needed.",
+                "back pain": "Olive oil massage warmth. Ginger tea reduces inflammation. Gentle stretching.",
+                "joint pain": "Fenugreek oil treatment. Ginger turmeric tea. Warmth and rest.",
+                "dry skin": "Olive oil deep moisturizing. Rose water hydrating. Natural treatments.",
+                "eczema": "Olive oil soothes. Rose water calms. Anti-inflammatory herbs.",
+                "dandruff": "Olive oil scalp massage. Avoid stress factors. Regular washing.",
+                "hair loss": "Olive oil treatments regular. Fenugreek paste scalp. Stress reduction.",
+                "minor cuts": "Honey antiseptic powerful. Turmeric paste protective. Keep clean.",
+                "minor burns": "Cool water immediately. Honey healing application. Protect from infection.",
+                "dehydration": "Water intake regular. Dates minerals. Herbal teas hydrate.",
+                "blood pressure support": "Garlic reduces pressure. Olive oil beneficial. Salt moderation.",
+                "blood sugar support": "Fenugreek regulates levels. Dates moderation. Exercise regular.",
+                "menstrual support": "Ginger eases discomfort. Iron-rich foods. Dates wellness support.",
+                "immune support": "Black seed valued. Dates nutrition rich. Honey protective. Prayer beneficial.",
+                "insomnia": "Warm milk dates. Prayer peaceful. Consistent schedule.",
+                "migraine": "Rose water compress. Ginger tea. Quiet dark space.",
+                "muscle soreness": "Olive oil massage warmth. Ginger tea reduces. Rest recovery.",
+                "inflammation": "Ginger turmeric combination. Anti-inflammatory diet. Rest essential.",
+                "bloating": "Ginger fennel tea. Dates minerals. Light walking helps.",
+                "food poisoning": "Ginger strong remedy. Herbal treatments. Hydration crucial. Doctor if severe.",
+                "common cold": "Garlic ginger soup. Fenugreek tea. Vitamin C essential. Rest hydration.",
+                "sore eyes": "Rose water compress cool. Rest eyes. Doctor persistent cases.",
+                "ear pain": "Warm olive oil drops. Prayer comfort. Avoid loud noise.",
+                "mouth ulcers": "Honey application. Rose water rinse. Avoid spicy foods.",
+                "psoriasis": "Turmeric olive oil. Henna treatment. Anti-inflammatory diet.",
+                "vitiligo": "Fenugreek treatment. Black seed oil. Sunscreen daily protection.",
+                "skin care": "Rose water morning evening. Olive oil night treatment. Henna masks weekly. Honey weekly. Natural approach.",
+                "teeth care": "Miswak traditional stick. Rose water rinses. Clove oil treatment. Avoid sugary items. Regular care.",
+                "nails care": "Olive oil massage daily. Henna strengthening. Dates nutrients. Natural approach. Regular trimming.",
+                "hair care": "Olive oil treatments. Henna natural color. Fenugreek scalp. Rose water rinses. Stress management."
+            }
+        };
+
+        // ============================================
+        // APP STATE MANAGEMENT
+        // ============================================
+
+        let appState = {
+            loading: true,
+            tradition: "",
+            concern: "",
+            messages: [],
+            isTyping: false,
+            langMenuOpen: false,
+            colorMenuOpen: false
+        };
+
+        // ============================================
+        // RENDERING FUNCTIONS
+        // ============================================
+
+        function goToChat() {
+            currentPage = 'chat';
+            appState.loading = false;
+            appState.messages = [
+                {
+                    id: "init",
+                    role: "bot",
+                    content: t('botWelcome')
+                }
+            ];
+            renderApp();
+        }
+
+        function goToAbout() {
+            currentPage = 'about';
+            renderApp();
+        }
+
+        function goToPrivacy() {
+            currentPage = 'privacy';
+            renderApp();
+        }
+
+        function goToWelcome() {
+            currentPage = 'welcome';
+            appState.messages = [];
+            appState.tradition = "";
+            appState.concern = "";
+            appState.isTyping = false;
+            renderApp();
+        }
+
+        function toggleLangMenu() {
+            appState.langMenuOpen = !appState.langMenuOpen;
+            appState.colorMenuOpen = false;
+            renderApp();
+        }
+
+        function toggleColorMenu() {
+            appState.colorMenuOpen = !appState.colorMenuOpen;
+            appState.langMenuOpen = false;
+            renderApp();
+        }
+
+        function renderApp() {
+            const root = document.getElementById("root");
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const themeIcon = currentTheme === 'light' ? '🌙' : '☀️';
+            
+            if (currentPage === 'welcome') {
+                root.innerHTML = `
+                    <div class="welcome-screen">
+                        <div class="welcome-logo">🌿</div>
+                        <h1 class="welcome-title">${t('welcomeTitle')}</h1>
+                        <p class="welcome-subtitle">${t('welcomeSubtitle')}</p>
+
+                        <div class="welcome-content-wrapper">
+                            <div class="welcome-section">
+                                <h3>${t('fourTraditions')}</h3>
+                                <p>${t('fourTraditionsDesc')}</p>
+                            </div>
+                            
+                            <div class="welcome-section">
+                                <h3>${t('learningTool')}</h3>
+                                <p>${t('learningToolDesc')}</p>
+                            </div>
+
+                            <div class="welcome-section">
+                                <h3>${t('notMedicalAdvice')}</h3>
+                                <p>${t('notMedicalAdviceDesc')}</p>
+                            </div>
+                        </div>
+
+                        <div class="welcome-buttons">
+                            <button class="welcome-btn" onclick="window.goToAbout()">${t('aboutBtn')}</button>
+                            <button class="welcome-btn" onclick="window.goToPrivacy()">${t('privacyBtn')}</button>
+                        </div>
+
+                        <button class="welcome-main-btn" onclick="window.goToChat()">
+                            ${t('getStarted')}
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            if (currentPage === 'about') {
+                root.innerHTML = `
+                    <div class="info-page">
+                        <div class="info-header">
+                            <h1>${t('aboutTitle')}</h1>
+                            <button class="back-btn" onclick="window.goToWelcome()">←</button>
+                        </div>
+                        <div class="info-content scrollable">
+                            <h2>${t('aboutTitle')}</h2>
+                            <p>${t('aboutText')}</p>
+
+                            <h2>${t('mission')}</h2>
+                            <p>${t('missionText')}</p>
+
+                            <h2>${t('whatWeOffer')}</h2>
+                            <ul>
+                                <li>${t('offer1')}</li>
+                                <li>${t('offer2')}</li>
+                                <li>${t('offer3')}</li>
+                                <li>${t('offer4')}</li>
+                                <li>${t('offer5')}</li>
+                                <li>${t('offer6')}</li>
+                            </ul>
+
+                            <h2>${t('disclaimer')}</h2>
+                            <p>${t('disclaimerText')}</p>
+
+                            <p>${t('disclaimerText2')}</p>
+
+                            <h2>${t('safetyFirst')}</h2>
+                            <p>${t('safetyFirstText')}</p>
+
+                            <h2>${t('development')}</h2>
+                            <p>${t('developmentText')}</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            if (currentPage === 'privacy') {
+                root.innerHTML = `
+                    <div class="info-page">
+                        <div class="info-header">
+                            <h1>${t('privacyTitle')}</h1>
+                            <button class="back-btn" onclick="window.goToWelcome()">←</button>
+                        </div>
+                        <div class="info-content scrollable">
+                            <h2>${t('privacyTitle')}</h2>
+                            <p><strong>${t('lastUpdated')}</strong> ${new Date().getFullYear()}</p>
+
+                            <h2>${t('dataCollection')}</h2>
+                            <p>${t('dataCollectionText')}</p>
+
+                            <h2>${t('noAnalytics')}</h2>
+                            <p>${t('noAnalyticsText')}</p>
+
+                            <h2>${t('noThirdParty')}</h2>
+                            <p>${t('noThirdPartyText')}</p>
+
+                            <h2>${t('offlineFirst')}</h2>
+                            <p>${t('offlineFirstText')}</p>
+
+                            <h2>${t('localStorage')}</h2>
+                            <p>${t('localStorageText')}</p>
+
+                            <h2>${t('security')}</h2>
+                            <p>${t('securityText')}</p>
+
+                            <h2>${t('privacyChanges')}</h2>
+                            <p>${t('privacyChangesText')}</p>
+
+                            <h2>${t('contact')}</h2>
+                            <p>${t('contactText')}</p>
+
+                            <h2>${t('yourRights')}</h2>
+                            <p>${t('yourRightsText')}</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            // CHAT PAGE
+            if (appState.loading) {
+                root.innerHTML = `
+                    <div class="loading-screen">
+                        <div class="loading-spinner"></div>
+                        <p class="loading-text">${t('loading')}</p>
+                        <p class="loading-subtext">${t('loadingSubtext')}</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            root.innerHTML = `
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <div class="header-left">
+                            <button class="return-btn" onclick="window.goToWelcome()" title="Return to welcome">
+                                ⌂
+                            </button>
+                        </div>
+                        
+                        <div class="header-content">
+                            <h1>🌿 ${t('welcomeTitle')}</h1>
+                            <p>${t('welcomeSubtitle')}</p>
+                        </div>
+                        
+                        <div class="header-buttons">
+                            <div class="lang-menu">
+                                <button class="lang-btn" onclick="window.toggleLangMenu()" title="Change language">
+                                    ${currentLanguage.toUpperCase()}
+                                </button>
+                                <div class="lang-dropdown ${appState.langMenuOpen ? 'active' : ''}">
+                                    <button class="lang-option ${currentLanguage === 'en' ? 'selected' : ''}" onclick="window.changeLanguage('en')">English</button>
+                                    <button class="lang-option ${currentLanguage === 'ar' ? 'selected' : ''}" onclick="window.changeLanguage('ar')">العربية</button>
+                                    <button class="lang-option ${currentLanguage === 'fr' ? 'selected' : ''}" onclick="window.changeLanguage('fr')">Français</button>
+                                    <button class="lang-option ${currentLanguage === 'es' ? 'selected' : ''}" onclick="window.changeLanguage('es')">Español</button>
+                                    <button class="lang-option ${currentLanguage === 'ko' ? 'selected' : ''}" onclick="window.changeLanguage('ko')">한국어</button>
+                                    <button class="lang-option ${currentLanguage === 'fa' ? 'selected' : ''}" onclick="window.changeLanguage('fa')">فارسی</button>
+                                </div>
+                            </div>
+
+                            <div class="color-menu">
+                                <button class="color-btn" onclick="window.toggleColorMenu()" title="Change color">
+                                    🎨
+                                </button>
+                                <div class="color-dropdown ${appState.colorMenuOpen ? 'active' : ''}">
+                                    <button class="color-option ${currentColor === 'emerald' ? 'selected' : ''}" onclick="window.changeColor('emerald')"><span class="color-dot emerald"></span>Emerald</button>
+                                    <button class="color-option ${currentColor === 'blue' ? 'selected' : ''}" onclick="window.changeColor('blue')"><span class="color-dot blue"></span>Blue</button>
+                                    <button class="color-option ${currentColor === 'purple' ? 'selected' : ''}" onclick="window.changeColor('purple')"><span class="color-dot purple"></span>Purple</button>
+                                    <button class="color-option ${currentColor === 'pink' ? 'selected' : ''}" onclick="window.changeColor('pink')"><span class="color-dot pink"></span>Pink</button>
+                                    <button class="color-option ${currentColor === 'orange' ? 'selected' : ''}" onclick="window.changeColor('orange')"><span class="color-dot orange"></span>Orange</button>
+                                    <button class="color-option ${currentColor === 'cyan' ? 'selected' : ''}" onclick="window.changeColor('cyan')"><span class="color-dot cyan"></span>Cyan</button>
+                                </div>
+                            </div>
+
+                            <button class="theme-toggle" onclick="window.toggleTheme()" title="Toggle dark/light mode">
+                                ${themeIcon}
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-messages scrollable" id="messagesContainer">
+                        ${appState.messages.map((msg, idx) => `
+                            <div class="message ${msg.role}">
+                                <div class="message-content ${msg.isWarning ? 'warning' : ''}">
+                                    ${escapeHtml(msg.content)}
+                                </div>
+                            </div>
+                        `).join('')}
+                        ${appState.isTyping ? `
+                            <div class="message bot">
+                                <div class="typing-indicator">
+                                    <div class="typing-dot"></div>
+                                    <div class="typing-dot"></div>
+                                    <div class="typing-dot"></div>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="chat-form-wrapper">
+                        <div class="chat-form">
+                            <form id="remedyForm" onsubmit="handleSubmit(event)">
+                                <div class="form-wrapper">
+                                    <div class="form-inputs">
+                                        <div class="form-group">
+                                            <label for="tradition">${t('tradition')} <span class="required-indicator">*</span></label>
+                                            <select id="tradition" required>
+                                                <option value="">${t('choose')}</option>
+                                                ${TRADITIONS.map(t => `<option value="${t}" ${appState.tradition === t ? 'selected' : ''}>${t}</option>`).join('')}
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="concern">${t('concern')} <span class="required-indicator">*</span></label>
+                                            <select id="concern" required>
+                                                <option value="">${t('choose')}</option>
+                                                ${CONCERNS.map(c => `<option value="${c}" ${appState.concern === c ? 'selected' : ''}>${c}</option>`).join('')}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="send-btn-wrapper">
+                                        <button type="submit" class="send-btn" ${appState.isTyping ? 'disabled' : ''}>
+                                            ${appState.isTyping ? '⏳' : '📨'}
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                const container = document.getElementById("messagesContainer");
+                if (container) {
+                    container.scrollTop = container.scrollHeight;
+                }
+            }, 0);
+            
+            const traditionalSelect = document.getElementById("tradition");
+            const concernSelect = document.getElementById("concern");
+            
+            if (traditionalSelect) {
+                traditionalSelect.addEventListener("change", (e) => {
+                    appState.tradition = e.target.value;
+                });
+            }
+            
+            if (concernSelect) {
+                concernSelect.addEventListener("change", (e) => {
+                    appState.concern = e.target.value;
+                });
+            }
+        }
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            
+            if (!appState.tradition || !appState.concern) {
+                alert("Please select both tradition and concern.");
+                return;
+            }
+            
+            const userMsg = {
+                id: Date.now().toString(),
+                role: "user",
+                content: `${appState.tradition} guidance for ${appState.concern}`
+            };
+            
+            appState.messages.push(userMsg);
+            appState.isTyping = true;
+            renderApp();
+            
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+            
+            setTimeout(() => {
+                const responseContent = getRemedyContent(appState.tradition, appState.concern);
+                const botMsg = {
+                    id: (Date.now() + 1).toString(),
+                    role: "bot",
+                    content: responseContent,
+                    isWarning: appState.concern === "STD"
+                };
+                
+                appState.messages.push(botMsg);
+                appState.isTyping = false;
+                appState.tradition = "";
+                appState.concern = "";
+                renderApp();
+            }, 1500);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement("div");
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ============================================
+        // APP INITIALIZATION
+        // ============================================
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const savedLang = localStorage.getItem('remedy-language');
+            if (savedLang) {
+                currentLanguage = savedLang;
+            }
+            initTheme();
+            renderApp();
+        });
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (!localStorage.getItem('remedy-theme')) {
+                document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+                renderApp();
+            }
+        });
+
+        // Expose functions globally
+        window.toggleTheme = toggleTheme;
+        window.changeColor = changeColor;
+        window.changeLanguage = changeLanguage;
+        window.toggleLangMenu = toggleLangMenu;
+        window.toggleColorMenu = toggleColorMenu;
+        window.handleSubmit = handleSubmit;
+        window.goToChat = goToChat;
+        window.goToAbout = goToAbout;
+        window.goToPrivacy = goToPrivacy;
+        window.goToWelcome = goToWelcome;
+    </script>
+</body>
+</html>      
