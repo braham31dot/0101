@@ -45,6 +45,7 @@
             --ring: #10b981;
             --safe-area-inset-top: env(safe-area-inset-top, 0);
             --safe-area-inset-bottom: env(safe-area-inset-bottom, 0);
+            --app-height: 100vh;
         }
 
         [data-theme="dark"] {
@@ -91,12 +92,16 @@
         html {
             width: 100%;
             height: 100%;
+            min-height: 100%;
             overflow: hidden;
+            background-color: var(--background);
         }
 
         body {
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            max-width: 100vw;
+            height: var(--app-height);
+            min-height: 100%;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
                 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
                 sans-serif;
@@ -110,8 +115,8 @@
             user-select: none;
             overflow: hidden;
             position: fixed;
-            top: 0;
-            left: 0;
+            inset: 0;
+            touch-action: manipulation;
         }
 
         input, select, textarea, button {
@@ -123,6 +128,7 @@
         #root {
             width: 100%;
             height: 100%;
+            min-height: 100%;
             display: flex;
             flex-direction: column;
         }
@@ -933,6 +939,14 @@
 
         /* iOS specific */
         @supports (padding: max(0px)) {
+            html, body {
+                height: -webkit-fill-available;
+            }
+
+            body {
+                min-height: -webkit-fill-available;
+            }
+
             .chat-header {
                 padding: max(0.8rem, env(safe-area-inset-top)) 0.8rem 0.8rem 0.8rem;
             }
@@ -942,64 +956,32 @@
             }
         }
 
+        @supports (height: 100dvh) {
+            :root {
+                --app-height: 100dvh;
+            }
+        }
+
         /* Responsive adjustments */
-        /* Mobile fix for chat page */
-@media (max-width: 480px) {
-    .chat-header {
-        min-height: auto;
-        justify-content: center;
-        gap: 0.6rem;
-    }
+        @media (max-width: 480px) {
+            .chat-header {
+                min-height: 80px;
+            }
 
-    .header-left {
-        width: 100%;
-        justify-content: center;
-        order: 1;
-    }
+            .header-content {
+                width: 100%;
+                flex-basis: 100%;
+            }
 
-    .header-content {
-        width: 100%;
-        flex-basis: 100%;
-        order: 2;
-    }
+            .chat-header h1 {
+                font-size: 1rem;
+            }
 
-    .header-buttons {
-        width: 100%;
-        justify-content: center;
-        order: 3;
-    }
-
-    .form-wrapper {
-        flex-direction: row;
-        align-items: flex-end;
-        gap: 0.5rem;
-    }
-
-    .form-inputs {
-        flex: 1;
-    }
-
-    .send-btn-wrapper {
-        margin-top: 0;
-        flex-shrink: 0;
-    }
-
-    .send-btn {
-        width: 44px;
-        height: 44px;
-        border-radius: 0.75rem;
-    }
-}
-
-/* Remove the bottom line / bar under inputs */
-.chat-form-wrapper {
-    border-top: none;
-}
-
-.chat-form {
-    box-shadow: none;
-}
-
+            .header-buttons,
+            .header-left {
+                flex-basis: auto;
+            }
+        }
 
         @media (min-width: 768px) {
             .return-btn,
@@ -1313,7 +1295,7 @@
                 offer6: "편안한 읽기를 위한 어두운/밝은 모드",
                 disclaimer: "중요한 면책 조항",
                 disclaimerText: "치료법 채팅은 교육 정보만 제공합니다. 이는 전문 의료 조언, 진단 또는 치료의 대체재가 아닙니다.",
-                disclaimerText2: "특히 심각한 건강 상태의 경우 새로운 치료법이나 치료를 시작하기 전에 항상 자격 있는 의료 전문가와 상담하세요.",
+                disclaimerText2: "특히 심각한 건강 상태의 경우 새로운 치료법이   치료를 시작하기 전에 항상 자격 있는 의료 전문가와 상담하세요.",
                 safetyFirst: "안전 우선",
                 safetyFirstText: "감염, 의료 응급 및 심각한 건강 문제의 경우 즉시 전문 의료 처치를 받으세요. 전통 치료법은 보완하지만 전문 치료를 대체하지 않습니다.",
                 development: "개발",
@@ -1384,9 +1366,9 @@
                 noAnalyticsText: "ما استفاده، موقعیت یا هیچ اطلاعات شخصی را ردگیری نمی کنیم. حریم خصوصی شما کاملا محفوظ است.",
                 noThirdParty: "بدون اشتراک گذاری از طرف ثالث",
                 noThirdPartyText: "داده های شما با شخص ثالث به اشتراک گذاری نمی شود. شبکه های تبلیغاتی یا خدمات خارجی استفاده نمی شود.",
-                offlineFirst: "اولویت آفلاین",
+                offlineFirst: "اولویت آفلا  ن",
                 offlineFirstText: "دردشة درمان کاملا به صورت آفلاین کار می کند. هیچ داده ای برای سرورهای خارجی ارسال نمی شود.",
-                localStorage: "ذخیره سازی محلی",
+                localStorage: "ذخیره سازی   حلی",
                 localStorageText: "ما فقط تنظیمات تم (حالت تاریک / روشن) را برای راحتی در ذخیره سازی محلی مرورگر ذخیره می کنیم.",
                 security: "امنیت",
                 securityText: "از آنجا که هیچ داده ای جمع آوری یا منتقل نمی شود، هیچ ریسک امنیتی برای نقض داده ها وجود ندارد.",
@@ -1398,6 +1380,199 @@
                 yourRightsText: "از آنجا که ما داده ای جمع آوری نمی کنیم، شما در تمام اوقات کنترل کامل بر استفاده از اطلاعات خود دارید."
             }
         };
+
+        const translationExtras = {
+            "en": {
+                "metaDescription": "Traditional wellness guidance from African, Asian, Islamic, and Arabic healing traditions.",
+                "returnToWelcomeTitle": "Return to welcome",
+                "changeLanguageTitle": "Change language",
+                "changeColorTitle": "Change color",
+                "toggleThemeTitle": "Toggle dark/light mode",
+                "backTitle": "Go back",
+                "selectBothAlert": "Please select both a tradition and a concern.",
+                "guidanceFor": "{tradition} guidance for {concern}",
+                "generalFallbackAdvice": "Please rest, stay hydrated, and consult a healthcare professional.",
+                "colorEmerald": "Emerald",
+                "colorBlue": "Blue",
+                "colorPurple": "Purple",
+                "colorPink": "Pink",
+                "colorOrange": "Orange",
+                "colorCyan": "Cyan",
+                "localStorageText": "We only store your theme, accent color, and language preferences in your browser's local storage for convenience."
+            },
+            "ar": {
+                "metaDescription": "إرشادات العافية التقليدية من تقاليد الشفاء الأفريقية والآسيوية والإسلامية والعربية.",
+                "returnToWelcomeTitle": "العودة إلى البداية",
+                "changeLanguageTitle": "تغيير اللغة",
+                "changeColorTitle": "تغيير اللون",
+                "toggleThemeTitle": "تبديل الوضع الداكن/الفاتح",
+                "backTitle": "رجوع",
+                "selectBothAlert": "يرجى اختيار التقليد والمشكلة.",
+                "guidanceFor": "إرشادات {tradition} بشأن {concern}",
+                "generalFallbackAdvice": "يرجى الراحة وشرب السوائل واستشارة مختص صحي.",
+                "colorEmerald": "زمردي",
+                "colorBlue": "أزرق",
+                "colorPurple": "بنفسجي",
+                "colorPink": "وردي",
+                "colorOrange": "برتقالي",
+                "colorCyan": "سماوي",
+                "localStorageText": "نخزن فقط تفضيلات المظهر واللون واللغة في التخزين المحلي للمتصفح لسهولة الاستخدام."
+            },
+            "fr": {
+                "metaDescription": "Conseils de bien-être traditionnel issus des traditions africaines, asiatiques, islamiques et arabes.",
+                "returnToWelcomeTitle": "Retour à l'accueil",
+                "changeLanguageTitle": "Changer de langue",
+                "changeColorTitle": "Changer la couleur",
+                "toggleThemeTitle": "Basculer sombre/clair",
+                "backTitle": "Retour",
+                "selectBothAlert": "Veuillez sélectionner une tradition et une préoccupation.",
+                "guidanceFor": "Conseils {tradition} pour {concern}",
+                "generalFallbackAdvice": "Reposez-vous, hydratez-vous et consultez un professionnel de santé.",
+                "colorEmerald": "Émeraude",
+                "colorBlue": "Bleu",
+                "colorPurple": "Violet",
+                "colorPink": "Rose",
+                "colorOrange": "Orange",
+                "colorCyan": "Cyan",
+                "localStorageText": "Nous stockons uniquement vos préférences de thème, de couleur d'accent et de langue dans le stockage local du navigateur pour plus de commodité."
+            },
+            "es": {
+                "metaDescription": "Guía de bienestar tradicional de las tradiciones de sanación africanas, asiáticas, islámicas y árabes.",
+                "returnToWelcomeTitle": "Volver al inicio",
+                "changeLanguageTitle": "Cambiar idioma",
+                "changeColorTitle": "Cambiar color",
+                "toggleThemeTitle": "Alternar modo oscuro/claro",
+                "backTitle": "Atrás",
+                "selectBothAlert": "Selecciona una tradición y una preocupación.",
+                "guidanceFor": "Guía de {tradition} para {concern}",
+                "generalFallbackAdvice": "Descansa, mantente hidratado y consulta a un profesional de la salud.",
+                "colorEmerald": "Esmeralda",
+                "colorBlue": "Azul",
+                "colorPurple": "Morado",
+                "colorPink": "Rosa",
+                "colorOrange": "Naranja",
+                "colorCyan": "Cian",
+                "localStorageText": "Solo almacenamos tus preferencias de tema, color de acento e idioma en el almacenamiento local del navegador por comodidad."
+            },
+            "ko": {
+                "metaDescription": "아프리카, 아시아, 이슬람, 아랍 치유 전통의 전통적 웰니스 안내입니다.",
+                "returnToWelcomeTitle": "처음으로 돌아가기",
+                "changeLanguageTitle": "언어 변경",
+                "changeColorTitle": "색상 변경",
+                "toggleThemeTitle": "다크/라이트 모드 전환",
+                "backTitle": "뒤로",
+                "selectBothAlert": "전통과 증상을 모두 선택하세요.",
+                "guidanceFor": "{concern}에 대한 {tradition} 안내",
+                "generalFallbackAdvice": "휴식을 취하고 수분을 보충하며 의료 전문가와 상담하세요.",
+                "colorEmerald": "에메랄드",
+                "colorBlue": "파랑",
+                "colorPurple": "보라",
+                "colorPink": "분홍",
+                "colorOrange": "주황",
+                "colorCyan": "청록",
+                "localStorageText": "편의를 위해 테마, 강조 색상, 언어 설정만 브라우저 로컬 저장소에 저장합니다."
+            },
+            "fa": {
+                "metaDescription": "راهنمای سلامتی سنتی از سنت های درمانی آفریقایی، آسیایی، اسلامی و عربی.",
+                "returnToWelcomeTitle": "بازگشت به خانه",
+                "changeLanguageTitle": "تغییر زبان",
+                "changeColorTitle": "تغییر رنگ",
+                "toggleThemeTitle": "تغییر حالت روشن/تاریک",
+                "backTitle": "بازگشت",
+                "selectBothAlert": "لطفاً هم سنت و هم مشکل را انتخاب کنید.",
+                "guidanceFor": "راهنمای {tradition} برای {concern}",
+                "generalFallbackAdvice": "استراحت کنید، آب کافی بنوشید و با متخصص سلامت مشورت کنید.",
+                "colorEmerald": "زمردی",
+                "colorBlue": "آبی",
+                "colorPurple": "بنفش",
+                "colorPink": "صورتی",
+                "colorOrange": "نارنجی",
+                "colorCyan": "فیروزه‌ای",
+                "localStorageText": "ما فقط ترجیحات پوسته، رنگ و زبان شما را برای راحتی در ذخیره سازی محلی مرورگر نگه می داریم."
+            },
+            "ru": {
+                "welcomeTitle": "Чат о средствах",
+                "welcomeSubtitle": "Традиционные советы по самочувствию",
+                "fourTraditions": "🌍 Четыре традиции",
+                "fourTraditionsDesc": "Африканская, азиатская, исламская и арабская традиции оздоровления в одном приложении.",
+                "learningTool": "💡 Учебный формат",
+                "learningToolDesc": "Изучайте традиционные средства в образовательных целях.",
+                "notMedicalAdvice": "⚕️ Не медицинская консультация",
+                "notMedicalAdviceDesc": "За диагностикой и лечением всегда обращайтесь к специалистам.",
+                "aboutBtn": "О приложении",
+                "privacyBtn": "Конфиденциальность",
+                "getStarted": "Начать →",
+                "tradition": "Традиция",
+                "concern": "Запрос",
+                "choose": "Выберите...",
+                "botWelcome": "🌿 Добро пожаловать в Чат о средствах\n\nЯ делюсь традиционными знаниями о самочувствии из африканских, азиатских, исламских и арабских практик.\n\nКакой совет вам нужен сегодня?",
+                "safetyWarning": "💡 Перед началом любого средства обязательно посоветуйтесь с медицинским специалистом. Эти рекомендации носят образовательный характер и не заменяют медицинскую помощь.",
+                "loading": "Чат о средствах",
+                "loadingSubtext": "Загружаем традиционные знания...",
+                "aboutTitle": "О приложении",
+                "aboutText": "Чат о средствах — образовательное приложение, созданное для знакомства с традиционными оздоровительными знаниями четырёх основных традиций: африканской, азиатской, исламской и арабской медицины.",
+                "mission": "Наша миссия",
+                "missionText": "Мы хотим сделать сведения о традиционных средствах доступнее, одновременно подчёркивая важность профессиональной медицинской помощи.",
+                "whatWeOffer": "Что есть в приложении",
+                "offer1": "Средства из африканской традиционной медицины",
+                "offer2": "Азиатская аюрведическая и травяная мудрость",
+                "offer3": "Исламские традиционные практики здоровья",
+                "offer4": "Арабские традиционные знания о восстановлении",
+                "offer5": "Поддержка более 50 вопросов здоровья и красоты",
+                "offer6": "Тёмная/светлая тема для комфортного чтения",
+                "disclaimer": "Важное предупреждение",
+                "disclaimerText": "Чат о средствах предоставляет только образовательную информацию. Это НЕ замена профессиональной медицинской консультации, диагностики или лечения.",
+                "disclaimerText2": "Всегда консультируйтесь с квалифицированными медицинскими специалистами перед началом нового средства или лечения, особенно при серьёзных состояниях.",
+                "safetyFirst": "Безопасность прежде всего",
+                "safetyFirstText": "При ИППП, неотложных состояниях и серьёзных проблемах со здоровьем нужно сразу обращаться за профессиональной медицинской помощью. Традиционные средства могут лишь дополнять, но никогда не заменяют лечение.",
+                "development": "Разработка",
+                "developmentText": "Это приложение создано, чтобы сделать традиционные знания о самочувствии доступными современной аудитории через удобную платформу.",
+                "privacyTitle": "Политика конфиденциальности",
+                "lastUpdated": "Последнее обновление:",
+                "dataCollection": "Сбор данных",
+                "dataCollectionText": "Чат о средствах не собирает персональные данные. Вся обработка выполняется локально на вашем устройстве.",
+                "noAnalytics": "Без аналитики",
+                "noAnalyticsText": "Мы не отслеживаем использование, местоположение или личную информацию. Ваша конфиденциальность полностью защищена.",
+                "noThirdParty": "Без передачи третьим лицам",
+                "noThirdPartyText": "Ваши данные не передаются третьим лицам. Рекламные сети и внешние сервисы не используются.",
+                "offlineFirst": "Полностью офлайн",
+                "offlineFirstText": "Чат о средствах работает полностью офлайн. Никакие данные не отправляются на внешние серверы. Весь контент хранится локально.",
+                "localStorage": "Локальное хранилище",
+                "localStorageText": "Для удобства мы сохраняем только ваши настройки темы, цвета и языка в локальном хранилище браузера.",
+                "security": "Безопасность",
+                "securityText": "Поскольку данные не собираются и не передаются, риски утечки данных отсутствуют.",
+                "privacyChanges": "Изменения политики",
+                "privacyChangesText": "Мы можем обновлять эту политику конфиденциальности. Существенные изменения будут отражены в дате «Последнее обновление».",
+                "contact": "Контакты",
+                "contactText": "По вопросам конфиденциальности используйте каналы поддержки приложения.",
+                "yourRights": "Ваши права",
+                "yourRightsText": "Так как мы не собираем данные, вы полностью контролируете использование своей информации.",
+                "metaDescription": "Традиционные советы по самочувствию из африканских, азиатских, исламских и арабских практик.",
+                "returnToWelcomeTitle": "Вернуться на главный экран",
+                "changeLanguageTitle": "Сменить язык",
+                "changeColorTitle": "Сменить цвет",
+                "toggleThemeTitle": "Переключить тёмную/светлую тему",
+                "backTitle": "Назад",
+                "selectBothAlert": "Пожалуйста, выберите и традицию, и запрос.",
+                "guidanceFor": "{tradition}: совет для темы «{concern}»",
+                "generalFallbackAdvice": "Отдохните, пейте больше жидкости и обратитесь к медицинскому специалисту.",
+                "colorEmerald": "Изумрудный",
+                "colorBlue": "Синий",
+                "colorPurple": "Фиолетовый",
+                "colorPink": "Розовый",
+                "colorOrange": "Оранжевый",
+                "colorCyan": "Голубой"
+            }
+        };
+
+        Object.entries(translationExtras).forEach(([lang, extra]) => {
+            translations[lang] = {
+                ...(translations.en || {}),
+                ...(translationExtras.en || {}),
+                ...(translations[lang] || {}),
+                ...extra
+            };
+        });
 
         const remediesTranslations = {
             ar: {
@@ -1417,10 +1592,338 @@
                 "flu": "생강차에 꿀과 레몬을 섞어 사용하세요. 마늘은 항균 특성이 있습니다. 휴식을 취하고 수분을 유지하세요.",
             },
             fa: {
-                "allergies": "عسل محلی ممکن است واکنش ها را کاهش دهد. مواد غذایی غنی شده از کوئرسیتین مانند پیاز کمک می کند.",
+                "allergies": "عسل محلی ممکن است واکنش ها را کاهش دهد. مواد غذایی غنی شده از کوئر  یتین مانند پیاز کمک می کند.",
                 "flu": "از چای زنجبیل با عسل و لیمو استفاده کنید. سیر دارای خصوصیات ضد میکروبی است. استراحت و ماندن آبی ضروری است.",
             }
         };
+
+        const remedyTranslationExtras = {
+            "ar": {
+                "STD": "⚠️ ملاحظة مهمة: العدوى المنقولة جنسياً تحتاج إلى رعاية طبية متخصصة.\n\nإجراءات تقليدية داعمة:\n• شاي دافئ بالزنجبيل والثوم\n• عسل مع الكركم\n• راحة كافية وشرب السوائل\n• طعام مغذٍ\n\nيجب مراجعة الطبيب للفحص والتشخيص والعلاج وإبلاغ الشركاء.",
+                "flu": "اشرب شاي الزنجبيل مع العسل والليمون. استرح، وأكثر من السوائل، وأضف الثوم أو المرق الدافئ إذا أمكن.",
+                "acne": "نظف البشرة بلطف. قد تساعد أقنعة الكركم أو الشاي الأخضر مع شرب كمية كافية من الماء.",
+                "anxiety": "يساعد البابونج والخزامى والتنفس الهادئ والتأمل القصير على الاسترخاء.",
+                "stress": "قد يخفف التوتر شاي الليمون العطري أو النعناع مع المشي وتمارين التنفس والراحة.",
+                "fatigue": "قد يدعم الجينسنغ والطعام المغذي والنوم الكافي والماء مستوى الطاقة.",
+                "weight loss": "حافظ على حركة منتظمة، وأكثر من الخضار والحبوب الكاملة، وقلل السكر والمشروبات المحلاة.",
+                "headache": "قد تساعد الراحة في مكان هادئ والماء والكمادات الباردة أو الدافئة وشاي النعناع.",
+                "sore throat": "تمضمض بماء دافئ وملح واشرب العسل مع الزنجبيل وغيرها من المشروبات الدافئة.",
+                "digestion": "يدعم الزنجبيل والشمر وتناول الطعام ببطء والمشروبات الدافئة الهضم غالباً.",
+                "sleep": "حافظ على مواعيد نوم ثابتة، وتجنب الكافيين مساءً، وجرب البابونج أو الحليب الدافئ مع العسل.",
+                "cramps": "قد تقلل الكمادات الدافئة وشاي الزنجبيل أو القرفة والأطعمة الغنية بالمغنيسيوم من التشنجات.",
+                "cough": "قد يخفف العسل والزعتر والمشروبات الدافئة والراحة من السعال.",
+                "fever": "استرح، وأكثر من السوائل، واستخدم كمادة باردة، وراقب الأعراض.",
+                "cold": "قد يدعم الزنجبيل والثوم والحساء الدافئ وفيتامين سي والراحة التعافي.",
+                "sinus congestion": "قد تخفف استنشاقات البخار والمشروبات الدافئة وكثرة السوائل من الاحتقان.",
+                "allergies": "قد يساعد العسل المحلي والأطعمة الغنية بالكيرسيتين وتجنب المهيجات المعروفة.",
+                "nausea": "غالباً ما يخفف الزنجبيل والنعناع والوجبات الصغيرة المتكررة الغثيان.",
+                "constipation": "اشرب الماء، وأضف الألياف أو بذور الكتان أو القراصيا، وتحرك أكثر.",
+                "diarrhea": "اشرب الماء أو محاليل الإماهة، وتناول طعاماً خفيفاً، وأرح المعدة.",
+                "heartburn": "تناول وجبات أصغر، وتجنب الأطعمة الحارة، وجرب مشروبات لطيفة ومهدئة.",
+                "toothache": "قد يخفف زيت القرنفل والمضمضة بالماء والملح الألم مؤقتاً، لكن يلزم طبيب أسنان.",
+                "back pain": "قد يساعد الدفء والتمدد اللطيف والأطعمة المضادة للالتهاب مثل الزنجبيل أو الكركم.",
+                "joint pain": "قد تخفف الكمادات الدافئة والزنجبيل والكركم والحركة اللطيفة الانزعاج.",
+                "dry skin": "استخدم زيت جوز الهند أو زبدة الشيا أو ترطيباً لطيفاً، واشرب ماءً كافياً.",
+                "eczema": "قد يهدئ الترطيب اللطيف وزيت جوز الهند أو السمسم وتجنب المهيجات البشرة.",
+                "dandruff": "قد يساعد العناية اللطيفة بفروة الرأس وزيت شجرة الشاي أو السمسم وتقليل التوتر.",
+                "hair loss": "قد يدعم تدليك فروة الرأس والطعام المغذي والعناية اللطيفة بالشعر النمو.",
+                "minor cuts": "اغسل المكان بماء نظيف، وحافظ على نظافته، ويمكن وضع قليل من العسل للحماية.",
+                "minor burns": "برّد المكان فوراً بماء بارد واستخدم الألوفيرا، مع الحفاظ على النظافة.",
+                "dehydration": "اشرب الماء بشكل متكرر، ويمكن إضافة ماء جوز الهند أو إلكتروليتات خفيفة.",
+                "blood pressure support": "تقليل الملح والحركة المنتظمة والكركديه والثوم تدعم ضغط الدم تقليدياً.",
+                "blood sugar support": "الاعتدال في الحلويات والحركة والقرفة أو الحلبة تدعم سكر الدم تقليدياً.",
+                "menstrual support": "الزنجبيل والدفء والراحة والأطعمة الغنية بالحديد تساعد كثيراً أثناء الدورة.",
+                "immune support": "النوم الجيد والطعام المغذي والزنجبيل والثوم والمشروبات العشبية الدافئة تدعم المناعة.",
+                "insomnia": "قد يساعد مشروب دافئ بلا كافيين وروتين ثابت وتهدئة المساء في الأرق.",
+                "migraine": "قد تقلل غرفة مظلمة وهادئة وكمادة باردة والماء والراحة من شدة النوبة.",
+                "muscle soreness": "قد تساعد التمددات الخفيفة والتدليك والراحة وشاي الزنجبيل أو الكركم الدافئ.",
+                "inflammation": "قد تدعم الأطعمة المضادة للالتهاب والزنجبيل والكركم والراحة التعافي.",
+                "bloating": "غالباً ما يقلل الزنجبيل والشمر والنعناع والمشي الهادئ الانتفاخ.",
+                "food poisoning": "ركز على السوائل والراحة والطعام الخفيف، واطلب الطبيب سريعاً عند الأعراض الشديدة.",
+                "common cold": "الحساء الدافئ والزنجبيل والثوم والراحة والماء تساعد عادةً مع نزلات البرد.",
+                "sore eyes": "أرح عينيك، وقلل وقت الشاشة، واستخدم كمادة باردة.",
+                "ear pain": "قد يخفف الدفء خارج الأذن والراحة الألم، لكن استمرار الأعراض يحتاج طبيباً.",
+                "mouth ulcers": "تمضمض بماء وملح، وتجنب الأطعمة الحارة، ويمكن استخدام العسل بلطف.",
+                "psoriasis": "قد يقلل الترطيب اللطيف والنظام الغذائي المضاد للالتهاب والعناية الهادئة من التهيج.",
+                "vitiligo": "احمِ الجلد بواقي الشمس، وحافظ على غذاء مغذٍ، وتابع مع مختص.",
+                "skin care": "يدعم التنظيف اللطيف والترطيب الطبيعي وشرب الماء والعناية المنتظمة صحة البشرة.",
+                "teeth care": "نظف الأسنان بانتظام، وتمضمض، وقلل السكر، وراجع طبيب الأسنان عند الألم.",
+                "nails care": "حافظ على الأظافر نظيفة وجافة، واستخدم الزيت، وأضف البروتين والبيوتين إلى الغذاء.",
+                "hair care": "يدعم تدليك فروة الرأس والزيوت والتصفيف اللطيف والتغذية الجيدة صحة الشعر."
+            },
+            "fr": {
+                "STD": "⚠️ Important : les infections sexuellement transmissibles nécessitent une prise en charge médicale professionnelle.\n\nMesures traditionnelles de soutien :\n• thé chaud au gingembre et à l'ail\n• miel avec curcuma\n• repos suffisant et bonne hydratation\n• alimentation nourrissante\n\nConsultez impérativement un médecin pour le dépistage, le diagnostic et le traitement, et informez vos partenaires.",
+                "flu": "Buvez du thé au gingembre avec miel et citron. Reposez-vous, hydratez-vous bien et ajoutez de l'ail ou un bouillon chaud si possible.",
+                "acne": "Nettoyez la peau en douceur. Des masques au curcuma ou au thé vert et une bonne hydratation peuvent aider.",
+                "anxiety": "La camomille, la lavande, une respiration calme et une courte méditation aident à se détendre.",
+                "stress": "La citronnelle ou la menthe, une marche, des exercices de respiration et du repos peuvent réduire la tension.",
+                "fatigue": "Le ginseng, une alimentation nourrissante, un sommeil suffisant et l'eau peuvent soutenir l'énergie.",
+                "weight loss": "Gardez une activité régulière, mangez plus de légumes et de céréales complètes, et réduisez le sucre et les boissons sucrées.",
+                "headache": "Le repos dans le calme, l'eau, une compresse froide ou tiède et le thé à la menthe peuvent aider.",
+                "sore throat": "Gargarisez-vous avec de l'eau tiède salée et buvez du miel avec du gingembre ainsi que d'autres boissons chaudes.",
+                "digestion": "Le gingembre, le fenouil, le fait de manger lentement et les boissons chaudes soutiennent souvent la digestion.",
+                "sleep": "Gardez des horaires de sommeil réguliers, évitez la caféine le soir et essayez la camomille ou du lait chaud au miel.",
+                "cramps": "Une compresse chaude, du thé au gingembre ou à la cannelle et des aliments riches en magnésium peuvent réduire les crampes.",
+                "cough": "Le miel, le thym, les boissons chaudes et le repos peuvent soulager la toux.",
+                "fever": "Reposez-vous, buvez davantage, utilisez une compresse fraîche et surveillez les symptômes.",
+                "cold": "Le gingembre, l'ail, une soupe chaude, la vitamine C et le repos peuvent soutenir la récupération.",
+                "sinus congestion": "Les inhalations de vapeur, les boissons chaudes et une bonne hydratation peuvent réduire la congestion.",
+                "allergies": "Le miel local, les aliments riches en quercétine et l'évitement des irritants connus peuvent aider.",
+                "nausea": "Le gingembre, la menthe et de petits repas fréquents soulagent souvent les nausées.",
+                "constipation": "Buvez de l'eau, ajoutez des fibres, des graines de lin ou des pruneaux, et bougez davantage.",
+                "diarrhea": "Buvez de l'eau ou des solutions de réhydratation, mangez léger et laissez l'estomac se reposer.",
+                "heartburn": "Mangez en plus petites portions, évitez les aliments épicés et essayez des boissons douces et apaisantes.",
+                "toothache": "L'huile de clou de girofle et un rinçage à l'eau salée peuvent soulager temporairement, mais un dentiste est nécessaire.",
+                "back pain": "La chaleur, des étirements doux et des aliments anti-inflammatoires comme le gingembre ou le curcuma peuvent aider.",
+                "joint pain": "Des compresses chaudes, le gingembre, le curcuma et des mouvements doux peuvent soulager l'inconfort.",
+                "dry skin": "Utilisez de l'huile de coco, du beurre de karité ou une hydratation douce, et buvez assez d'eau.",
+                "eczema": "Une hydratation douce, l'huile de coco ou de sésame et l'évitement des irritants peuvent apaiser la peau.",
+                "dandruff": "Des soins doux du cuir chevelu, l'huile d'arbre à thé ou de sésame et moins de stress peuvent aider.",
+                "hair loss": "Le massage du cuir chevelu, une alimentation nourrissante et des soins capillaires doux peuvent soutenir la pousse.",
+                "minor cuts": "Rincez la zone à l'eau propre, gardez-la propre et vous pouvez appliquer un peu de miel pour protéger.",
+                "minor burns": "Refroidissez immédiatement la zone avec de l'eau fraîche et utilisez de l'aloe vera en gardant la peau propre.",
+                "dehydration": "Buvez de l'eau plus souvent ; vous pouvez aussi ajouter de l'eau de coco ou des électrolytes légers.",
+                "blood pressure support": "Moins de sel, une activité régulière, l'hibiscus et l'ail soutiennent traditionnellement la tension artérielle.",
+                "blood sugar support": "La modération sur le sucre, l'activité physique, la cannelle ou le fenugrec soutiennent traditionnellement la glycémie.",
+                "menstrual support": "Le gingembre, la chaleur, le repos et les aliments riches en fer aident souvent pendant les règles.",
+                "immune support": "Un bon sommeil, une alimentation nourrissante, le gingembre, l'ail et des tisanes chaudes soutiennent l'immunité.",
+                "insomnia": "Une boisson chaude sans caféine, une routine stable et une soirée apaisante peuvent aider contre l'insomnie.",
+                "migraine": "Une pièce sombre et calme, une compresse fraîche, de l'eau et du repos peuvent réduire la crise.",
+                "muscle soreness": "Des étirements légers, le massage, le repos et du thé chaud au gingembre ou au curcuma peuvent aider.",
+                "inflammation": "Les aliments anti-inflammatoires, le gingembre, le curcuma et le repos peuvent soutenir la récupération.",
+                "bloating": "Le gingembre, le fenouil, la menthe et une marche tranquille réduisent souvent les ballonnements.",
+                "food poisoning": "Concentrez-vous sur l'hydratation, le repos et des aliments légers ; consultez vite en cas de symptômes sévères.",
+                "common cold": "Une soupe chaude, le gingembre, l'ail, le repos et l'eau aident généralement en cas de rhume.",
+                "sore eyes": "Laissez vos yeux se reposer, réduisez le temps d'écran et utilisez une compresse fraîche.",
+                "ear pain": "La chaleur à l'extérieur de l'oreille et le repos peuvent soulager, mais des symptômes persistants nécessitent un médecin.",
+                "mouth ulcers": "Rincez la bouche à l'eau salée, évitez le piquant et vous pouvez utiliser du miel avec précaution.",
+                "psoriasis": "Une hydratation douce, une alimentation anti-inflammatoire et des soins délicats peuvent réduire l'irritation.",
+                "vitiligo": "Protégez la peau avec un écran solaire, gardez une alimentation nourrissante et faites un suivi spécialisé.",
+                "skin care": "Un nettoyage doux, des hydratants naturels, une bonne hydratation et des soins réguliers soutiennent la peau.",
+                "teeth care": "Brossez-vous les dents régulièrement, rincez la bouche, limitez le sucre et consultez un dentiste si vous avez mal.",
+                "nails care": "Gardez les ongles propres et secs, utilisez de l'huile et ajoutez protéines et biotine à l'alimentation.",
+                "hair care": "Le massage doux du cuir chevelu, les huiles, une coiffure douce et une bonne alimentation soutiennent les cheveux."
+            },
+            "es": {
+                "STD": "⚠️ Importante: las infecciones de transmisión sexual requieren atención médica profesional.\n\nMedidas tradicionales de apoyo:\n• té caliente con jengibre y ajo\n• miel con cúrcuma\n• suficiente descanso y líquidos\n• comida nutritiva\n\nDebes acudir al médico para pruebas, diagnóstico y tratamiento, e informar a tus parejas.",
+                "flu": "Bebe té de jengibre con miel y limón. Descansa, toma más líquidos y añade ajo o caldo caliente si puedes.",
+                "acne": "Limpia la piel con suavidad. Las mascarillas de cúrcuma o té verde y una buena hidratación pueden ayudar.",
+                "anxiety": "La manzanilla, la lavanda, la respiración tranquila y una meditación corta ayudan a relajarse.",
+                "stress": "La hierba limón o la menta, una caminata, ejercicios de respiración y el descanso pueden reducir la tensión.",
+                "fatigue": "El ginseng, la comida nutritiva, el sueño suficiente y el agua pueden apoyar tu energía.",
+                "weight loss": "Mantén actividad regular, come más verduras y granos integrales, y reduce el azúcar y las bebidas azucaradas.",
+                "headache": "El descanso en un lugar tranquilo, el agua, una compresa fría o tibia y el té de menta pueden ayudar.",
+                "sore throat": "Haz gárgaras con agua tibia y sal, y toma miel con jengibre y otras bebidas calientes.",
+                "digestion": "El jengibre, el hinojo, comer despacio y las bebidas calientes suelen apoyar la digestión.",
+                "sleep": "Mantén horarios regulares de sueño, evita la cafeína por la noche y prueba manzanilla o leche tibia con miel.",
+                "cramps": "Una compresa tibia, té de jengibre o canela y alimentos ricos en magnesio pueden reducir los calambres.",
+                "cough": "La miel, el tomillo, las bebidas calientes y el descanso pueden aliviar la tos.",
+                "fever": "Descansa, bebe más líquidos, usa una compresa fresca y vigila los síntomas.",
+                "cold": "El jengibre, el ajo, la sopa caliente, la vitamina C y el descanso pueden apoyar la recuperación.",
+                "sinus congestion": "Las inhalaciones de vapor, las bebidas calientes y una buena hidratación pueden reducir la congestión.",
+                "allergies": "La miel local, los alimentos ricos en quercetina y evitar irritantes conocidos pueden ayudar.",
+                "nausea": "El jengibre, la menta y las comidas pequeñas y frecuentes suelen aliviar las náuseas.",
+                "constipation": "Bebe agua, añade fibra, linaza o ciruelas pasas, y muévete más.",
+                "diarrhea": "Bebe agua o soluciones de rehidratación, come alimentos suaves y deja descansar el estómago.",
+                "heartburn": "Come porciones más pequeñas, evita la comida picante y prueba bebidas suaves y calmantes.",
+                "toothache": "El aceite de clavo y el enjuague con agua salada pueden aliviar temporalmente, pero necesitas dentista.",
+                "back pain": "El calor, los estiramientos suaves y alimentos antiinflamatorios como el jengibre o la cúrcuma pueden ayudar.",
+                "joint pain": "Las compresas tibias, el jengibre, la cúrcuma y el movimiento suave pueden aliviar la molestia.",
+                "dry skin": "Usa aceite de coco, manteca de karité o una hidratación suave, y bebe suficiente agua.",
+                "eczema": "La hidratación suave, el aceite de coco o sésamo y evitar irritantes pueden calmar la piel.",
+                "dandruff": "El cuidado suave del cuero cabelludo, el aceite de árbol de té o sésamo y menos estrés pueden ayudar.",
+                "hair loss": "El masaje del cuero cabelludo, la comida nutritiva y el cuidado suave del cabello pueden apoyar el crecimiento.",
+                "minor cuts": "Enjuaga la zona con agua limpia, mantenla limpia y puedes aplicar un poco de miel para proteger.",
+                "minor burns": "Enfría la zona de inmediato con agua fresca y usa aloe vera, manteniendo el área limpia.",
+                "dehydration": "Bebe agua con más frecuencia; también puedes añadir agua de coco o electrolitos suaves.",
+                "blood pressure support": "Menos sal, actividad regular, hibisco y ajo apoyan tradicionalmente la presión arterial.",
+                "blood sugar support": "Moderación con lo dulce, actividad física, canela o fenogreco apoyan tradicionalmente el azúcar en sangre.",
+                "menstrual support": "El jengibre, el calor, el descanso y los alimentos ricos en hierro suelen ayudar durante el ciclo.",
+                "immune support": "Buen sueño, comida nutritiva, jengibre, ajo y bebidas herbales calientes apoyan la inmunidad.",
+                "insomnia": "Una bebida caliente sin cafeína, una rutina estable y una noche tranquila pueden ayudar con el insomnio.",
+                "migraine": "Una habitación oscura y silenciosa, una compresa fresca, agua y descanso pueden reducir el episodio.",
+                "muscle soreness": "Los estiramientos suaves, el masaje, el descanso y el té caliente de jengibre o cúrcuma pueden ayudar.",
+                "inflammation": "Los alimentos antiinflamatorios, el jengibre, la cúrcuma y el descanso pueden apoyar la recuperación.",
+                "bloating": "El jengibre, el hinojo, la menta y una caminata tranquila suelen reducir la hinchazón.",
+                "food poisoning": "Concéntrate en líquidos, descanso y comida suave; busca atención médica rápido si los síntomas son intensos.",
+                "common cold": "La sopa caliente, el jengibre, el ajo, el descanso y el agua suelen ayudar con el resfriado común.",
+                "sore eyes": "Deja descansar tus ojos, reduce el tiempo de pantalla y usa una compresa fresca.",
+                "ear pain": "El calor por fuera del oído y el descanso pueden aliviar, pero si sigue el dolor consulta a un médico.",
+                "mouth ulcers": "Enjuaga la boca con agua salada, evita lo picante y puedes usar miel con cuidado.",
+                "psoriasis": "La hidratación suave, una alimentación antiinflamatoria y el cuidado delicado pueden reducir la irritación.",
+                "vitiligo": "Protege la piel con protector solar, mantén una dieta nutritiva y haz seguimiento con un especialista.",
+                "skin care": "La limpieza suave, hidratantes naturales, suficiente agua y el cuidado regular apoyan la piel.",
+                "teeth care": "Cepíllate los dientes con regularidad, enjuaga la boca, limita el azúcar y consulta al dentista si hay dolor.",
+                "nails care": "Mantén las uñas limpias y secas, usa aceite y añade proteína y biotina a la alimentación.",
+                "hair care": "El masaje suave del cuero cabelludo, los aceites, el peinado delicado y una buena nutrición apoyan el cabello."
+            },
+            "ko": {
+                "STD": "⚠️ 중요: 성병은 전문적인 의료 진료가 필요합니다.\n\n보조적인 전통 관리법:\n• 생강과 마늘을 넣은 따뜻한 차\n• 강황을 섞은 꿀\n• 충분한 휴식과 수분 섭취\n• 영양 있는 식사\n\n반드시 의사를 찾아 검사, 진단, 치료를 받고 파트너에게도 알려야 합니다.",
+                "flu": "생강차에 꿀과 레몬을 넣어 마시세요. 쉬면서 수분을 충분히 보충하고 가능하면 마늘이나 따뜻한 국물도 드세요.",
+                "acne": "피부를 부드럽게 세안하세요. 강황이나 녹차 팩과 충분한 수분 섭취가 도움이 될 수 있습니다.",
+                "anxiety": "캐모마일, 라벤더, 차분한 호흡, 짧은 명상이 긴장을 풀어주는 데 도움이 됩니다.",
+                "stress": "레몬그라스나 민트차, 가벼운 산책, 호흡 연습, 휴식이 스트레스 완화에 도움이 될 수 있습니다.",
+                "fatigue": "인삼, 영양 있는 음식, 충분한 수면과 물이 에너지 유지에 도움이 될 수 있습니다.",
+                "weight loss": "규칙적으로 움직이고 채소와 통곡물을 더 먹으며 당분과 단 음료를 줄이세요.",
+                "headache": "조용한 곳에서 쉬고 물을 마시며 차갑거나 따뜻한 찜질과 민트차를 활용하면 도움이 될 수 있습니다.",
+                "sore throat": "따뜻한 소금물로 가글하고 생강꿀차 같은 따뜻한 음료를 드세요.",
+                "digestion": "생강, 펜넬, 천천히 먹기, 따뜻한 음료가 소화를 돕는 경우가 많습니다.",
+                "sleep": "수면 시간을 일정하게 유지하고 저녁 카페인을 피하며 캐모마일이나 꿀을 넣은 따뜻한 우유를 시도해 보세요.",
+                "cramps": "따뜻한 찜질, 생강차나 계피차, 마그네슘이 풍부한 음식이 경련 완화에 도움이 될 수 있습니다.",
+                "cough": "꿀, 타임, 따뜻한 음료, 휴식이 기침을 완화할 수 있습니다.",
+                "fever": "충분히 쉬고 수분을 더 섭취하며 시원한 찜질을 하고 증상을 살피세요.",
+                "cold": "생강, 마늘, 따뜻한 수프, 비타민 C, 휴식이 회복을 도울 수 있습니다.",
+                "sinus congestion": "증기 흡입, 따뜻한 음료, 충분한 수분 섭취가 코막힘 완화에 도움이 될 수 있습니다.",
+                "allergies": "지역 꿀, 케르세틴이 풍부한 음식, 알려진 자극원 피하기가 도움이 될 수 있습니다.",
+                "nausea": "생강, 민트, 적은 양의 잦은 식사가 메스꺼움 완화에 도움이 되는 경우가 많습니다.",
+                "constipation": "물을 마시고 섬유질, 아마씨, 말린 자두를 늘리며 몸을 더 움직이세요.",
+                "diarrhea": "물이나 수분 보충 음료를 마시고 자극 없는 음식을 먹으며 위를 쉬게 하세요.",
+                "heartburn": "식사량을 줄이고 매운 음식을 피하며 순하고 진정되는 음료를 드셔 보세요.",
+                "toothache": "정향 오일과 소금물 헹굼은 일시적으로 완화할 수 있지만 치과 진료가 필요합니다.",
+                "back pain": "온찜질, 부드러운 스트레칭, 생강이나 강황 같은 항염 식품이 도움이 될 수 있습니다.",
+                "joint pain": "따뜻한 찜질, 생강, 강황, 무리 없는 움직임이 불편함 완화에 도움이 될 수 있습니다.",
+                "dry skin": "코코넛 오일, 시어버터, 순한 보습제를 사용하고 물을 충분히 마시세요.",
+                "eczema": "순한 보습, 코코넛오일이나 참기름, 자극원 피하기가 피부를 진정시키는 데 도움이 될 수 있습니다.",
+                "dandruff": "두피를 부드럽게 관리하고 티트리오일이나 참기름을 사용하며 스트레스를 줄이면 도움이 될 수 있습니다.",
+                "hair loss": "두피 마사지, 영양 있는 식사, 자극이 적은 모발 관리가 성장에 도움이 될 수 있습니다.",
+                "minor cuts": "깨끗한 물로 씻고 청결하게 유지하며 보호를 위해 약간의 꿀을 바를 수 있습니다.",
+                "minor burns": "즉시 시원한 물로 식히고 알로에베라를 사용하며 부위를 깨끗하게 유지하세요.",
+                "dehydration": "물을 더 자주 마시고 필요하면 코코넛워터나 가벼운 전해질 음료를 더하세요.",
+                "blood pressure support": "소금 줄이기, 규칙적인 활동, 히비스커스, 마늘은 전통적으로 혈압 지원에 쓰입니다.",
+                "blood sugar support": "단 음식 절제, 운동, 계피나 호로파는 전통적으로 혈당 지원에 쓰입니다.",
+                "menstrual support": "생강, 따뜻함, 휴식, 철분이 풍부한 음식이 생리 기간에 자주 도움이 됩니다.",
+                "immune support": "충분한 수면, 영양 있는 식사, 생강, 마늘, 따뜻한 허브 음료가 면역을 돕습니다.",
+                "insomnia": "카페인 없는 따뜻한 음료, 일정한 수면 습관, 차분한 저녁 루틴이 불면 완화에 도움이 될 수 있습니다.",
+                "migraine": "어둡고 조용한 방, 시원한 찜질, 물, 휴식이 발작 강도를 줄이는 데 도움이 될 수 있습니다.",
+                "muscle soreness": "가벼운 스트레칭, 마사지, 휴식, 따뜻한 생강차나 강황차가 도움이 될 수 있습니다.",
+                "inflammation": "항염 식품, 생강, 강황, 휴식이 회복을 돕는 데 도움이 될 수 있습니다.",
+                "bloating": "생강, 펜넬, 민트, 천천히 걷기가 더부룩함 완화에 도움이 되는 경우가 많습니다.",
+                "food poisoning": "수분 섭취와 휴식, 부드러운 음식에 집중하고 증상이 심하면 빨리 진료를 받으세요.",
+                "common cold": "따뜻한 수프, 생강, 마늘, 휴식, 물은 보통 감기 관리에 도움이 됩니다.",
+                "sore eyes": "눈을 쉬게 하고 화면 시간을 줄이며 시원한 찜질을 사용하세요.",
+                "ear pain": "귀 바깥쪽을 따뜻하게 하고 쉬면 완화될 수 있지만 증상이 계속되면 진료가 필요합니다.",
+                "mouth ulcers": "소금물로 입을 헹구고 매운 음식을 피하며 조심스럽게 꿀을 사용할 수 있습니다.",
+                "psoriasis": "순한 보습, 항염 식단, 자극이 적은 관리가 자극 감소에 도움이 될 수 있습니다.",
+                "vitiligo": "자외선 차단제로 피부를 보호하고 영양 있는 식사를 유지하며 전문의와 상담하세요.",
+                "skin care": "부드러운 세안, 자연 보습, 충분한 수분 섭취, 꾸준한 관리가 피부 건강을 돕습니다.",
+                "teeth care": "정기적으로 양치하고 입을 헹구며 당분을 줄이고 통증이 있으면 치과를 찾으세요.",
+                "nails care": "손톱을 깨끗하고 건조하게 유지하고 오일을 바르며 단백질과 비오틴을 충분히 섭취하세요.",
+                "hair care": "부드러운 두피 마사지, 오일, 자극 적은 스타일링, 균형 잡힌 식사가 모발 건강을 돕습니다."
+            },
+            "fa": {
+                "STD": "⚠️ مهم: عفونت های منتقل شونده از راه جنسی به مراقبت حرفه ای پزشکی نیاز دارند.\n\nاقدام های سنتی حمایتی:\n• چای گرم زنجبیل و سیر\n• عسل با زردچوبه\n• استراحت کافی و مصرف مایعات\n• غذای مقوی\n\nحتماً برای آزمایش، تشخیص و درمان به پزشک مراجعه کنید و شریک های خود را آگاه سازید.",
+                "flu": "چای زنجبیل با عسل و لیمو بنوشید. استراحت کنید، مایعات بیشتری مصرف کنید و اگر می توانید سیر یا آبگوشت گرم هم اضافه کنید.",
+                "acne": "پوست را به آرامی تمیز کنید. ماسک زردچوبه یا چای سبز همراه با آب کافی می تواند کمک کننده باشد.",
+                "anxiety": "بابونه، اسطوخودوس، تنفس آرام و مدیتیشن کوتاه به آرام شدن کمک می کنند.",
+                "stress": "چای علف لیمو یا نعناع، پیاده روی، تمرین های تنفسی و استراحت می توانند تنش را کمتر کنند.",
+                "fatigue": "جینسنگ، غذای مقوی، خواب کافی و آب می توانند از انرژی بدن حمایت کنند.",
+                "weight loss": "فعالیت منظم داشته باشید، سبزیجات و غلات کامل بیشتری بخورید و قند و نوشیدنی های شیرین را کمتر کنید.",
+                "headache": "استراحت در جای آرام، آب، کمپرس خنک یا گرم و چای نعناع می تواند کمک کند.",
+                "sore throat": "با آب نمک گرم غرغره کنید و عسل با زنجبیل و دیگر نوشیدنی های گرم بنوشید.",
+                "digestion": "زنجبیل، رازیانه، آهسته غذا خوردن و نوشیدنی های گرم اغلب به گوارش کمک می کنند.",
+                "sleep": "زمان خواب منظم داشته باشید، عصرها کافئین نخورید و بابونه یا شیر گرم با عسل را امتحان کنید.",
+                "cramps": "کمپرس گرم، چای زنجبیل یا دارچین و خوراکی های سرشار از منیزیم می توانند گرفتگی را کمتر کنند.",
+                "cough": "عسل، آویشن، نوشیدنی های گرم و استراحت می توانند سرفه را آرام کنند.",
+                "fever": "استراحت کنید، مایعات بیشتری بنوشید، از کمپرس خنک استفاده کنید و علائم را زیر نظر بگیرید.",
+                "cold": "زنجبیل، سیر، سوپ گرم، ویتامین سی و استراحت می توانند به بهبود کمک کنند.",
+                "sinus congestion": "بخور، نوشیدنی های گرم و مایعات کافی می توانند گرفتگی سینوس را کمتر کنند.",
+                "allergies": "عسل محلی، خوراکی های سرشار از کوئرستین و دوری از محرک های شناخته شده می توانند کمک کنند.",
+                "nausea": "زنجبیل، نعناع و وعده های کوچک و مکرر اغلب تهوع را کمتر می کنند.",
+                "constipation": "آب بنوشید، فیبر، بذر کتان یا آلوخشک اضافه کنید و بیشتر حرکت کنید.",
+                "diarrhea": "آب یا محلول های جبران آب بنوشید، غذای سبک بخورید و به معده استراحت بدهید.",
+                "heartburn": "وعده های کوچک تر بخورید، از غذای تند دوری کنید و نوشیدنی های ملایم و آرام بخش را امتحان کنید.",
+                "toothache": "روغن میخک و شستشو با آب نمک می توانند موقتاً درد را کم کنند، اما دندانپزشک لازم است.",
+                "back pain": "گرما، کشش ملایم و خوراکی های ضدالتهاب مانند زنجبیل یا زردچوبه می توانند کمک کنند.",
+                "joint pain": "کمپرس گرم، زنجبیل، زردچوبه و حرکت ملایم می توانند ناراحتی مفصل را کمتر کنند.",
+                "dry skin": "از روغن نارگیل، کره شی یا مرطوب کننده ملایم استفاده کنید و آب کافی بنوشید.",
+                "eczema": "مرطوب سازی ملایم، روغن نارگیل یا کنجد و دوری از محرک ها می توانند پوست را آرام کنند.",
+                "dandruff": "مراقبت ملایم از پوست سر، روغن درخت چای یا کنجد و کاهش استرس می توانند کمک کنند.",
+                "hair loss": "ماساژ پوست سر، غذای مقوی و مراقبت ملایم از مو می توانند از رشد مو حمایت کنند.",
+                "minor cuts": "محل را با آب تمیز بشویید، تمیز نگه دارید و می توانید کمی عسل برای محافظت بزنید.",
+                "minor burns": "محل را فوراً با آب خنک سرد کنید و از آلوئه ورا استفاده کنید و ناحیه را تمیز نگه دارید.",
+                "dehydration": "بیشتر و مکرر آب بنوشید و در صورت نیاز آب نارگیل یا الکترولیت سبک اضافه کنید.",
+                "blood pressure support": "کاهش نمک، فعالیت منظم، چای ترش و سیر به طور سنتی از فشار خون حمایت می کنند.",
+                "blood sugar support": "میانه روی در شیرینی، فعالیت بدنی، دارچین یا شنبلیله به طور سنتی از قند خون حمایت می کنند.",
+                "menstrual support": "زنجبیل، گرما، استراحت و خوراکی های سرشار از آهن اغلب در دوران قاعدگی کمک می کنند.",
+                "immune support": "خواب خوب، غذای مقوی، زنجبیل، سیر و نوشیدنی های گیاهی گرم از ایمنی حمایت می کنند.",
+                "insomnia": "نوشیدنی گرم بدون کافئین، برنامه خواب منظم و آرامش شبانه می تواند برای بی خوابی کمک کننده باشد.",
+                "migraine": "اتاق تاریک و آرام، کمپرس خنک، آب و استراحت می توانند شدت حمله را کمتر کنند.",
+                "muscle soreness": "کشش سبک، ماساژ، استراحت و چای گرم زنجبیل یا زردچوبه می توانند کمک کنند.",
+                "inflammation": "خوراکی های ضدالتهاب، زنجبیل، زردچوبه و استراحت می توانند از بهبود حمایت کنند.",
+                "bloating": "زنجبیل، رازیانه، نعناع و پیاده روی آرام اغلب نفخ را کمتر می کنند.",
+                "food poisoning": "روی مایعات، استراحت و غذای سبک تمرکز کنید و اگر علائم شدید شد سریعاً به پزشک مراجعه کنید.",
+                "common cold": "سوپ گرم، زنجبیل، سیر، استراحت و آب معمولاً برای سرماخوردگی کمک کننده هستند.",
+                "sore eyes": "به چشم ها استراحت بدهید، زمان صفحه نمایش را کمتر کنید و از کمپرس خنک استفاده کنید.",
+                "ear pain": "گرمای ملایم روی بیرون گوش و استراحت می توانند درد را کمتر کنند، اما تداوم علائم نیاز به پزشک دارد.",
+                "mouth ulcers": "دهان را با آب نمک بشویید، غذای تند نخورید و می توانید با احتیاط از عسل استفاده کنید.",
+                "psoriasis": "مرطوب سازی ملایم، رژیم ضدالتهاب و مراقبت آرام می توانند تحریک را کمتر کنند.",
+                "vitiligo": "از پوست با ضدآفتاب محافظت کنید، رژیم غذایی مقوی داشته باشید و زیر نظر متخصص باشید.",
+                "skin care": "پاکسازی ملایم، مرطوب کننده های طبیعی، آب کافی و مراقبت منظم از پوست حمایت می کنند.",
+                "teeth care": "دندان ها را منظم مسواک بزنید، دهان را بشویید، قند را کمتر کنید و در صورت درد به دندانپزشک مراجعه کنید.",
+                "nails care": "ناخن ها را تمیز و خشک نگه دارید، از روغن استفاده کنید و پروتئین و بیوتین را به رژیم اضافه کنید.",
+                "hair care": "ماساژ ملایم پوست سر، روغن ها، حالت دهی ملایم و تغذیه کامل از سلامت مو حمایت می کنند."
+            },
+            "ru": {
+                "STD": "⚠️ Важно: инфекции, передающиеся половым путём, требуют профессиональной медицинской помощи.\n\nПоддерживающие традиционные меры:\n• тёплый чай с имбирём и чесноком\n• мёд с куркумой\n• достаточный отдых и питьё\n• питательная пища\n\nОбязательно обратитесь к врачу для обследования, диагностики и лечения и сообщите партнёрам.",
+                "flu": "Пейте чай с имбирём, мёдом и лимоном. Отдыхайте, пейте больше жидкости и добавьте чеснок или тёплый бульон.",
+                "acne": "Мягко очищайте кожу. Маски с куркумой или зелёным чаем и достаточное питьё могут помочь.",
+                "anxiety": "Ромашка, лаванда, спокойное дыхание и короткая медитация помогают расслабиться.",
+                "stress": "Снизить напряжение могут лемонграсс или мята, прогулка, дыхательные практики и отдых.",
+                "fatigue": "Женьшень, питательная еда, достаточный сон и вода могут поддержать энергию.",
+                "weight loss": "Поддерживайте регулярное движение, ешьте больше овощей и цельных злаков, уменьшайте сахар и сладкие напитки.",
+                "headache": "Отдых в тишине, вода, прохладный или тёплый компресс и мятный чай могут помочь.",
+                "sore throat": "Полощите горло тёплой солёной водой, пейте мёд с имбирём и другие тёплые напитки.",
+                "digestion": "Имбирь, фенхель, медленное питание и тёплые напитки часто поддерживают пищеварение.",
+                "sleep": "Соблюдайте режим сна, избегайте кофеина вечером и попробуйте ромашку или тёплое молоко с мёдом.",
+                "cramps": "Тёплый компресс, имбирный или коричный чай и продукты с магнием могут уменьшить спазмы.",
+                "cough": "Мёд, тимьян, тёплые напитки и отдых могут облегчить кашель.",
+                "fever": "Отдыхайте, пейте больше жидкости, используйте прохладный компресс и наблюдайте за симптомами.",
+                "cold": "Имбирь, чеснок, тёплый суп, витамин C и отдых могут поддержать восстановление.",
+                "sinus congestion": "Паровые ингаляции, тёплые напитки и достаточное питьё могут уменьшить заложенность.",
+                "allergies": "Местный мёд, продукты с кверцетином и избегание известных раздражителей могут помочь.",
+                "nausea": "Имбирь, мята и небольшие частые приёмы пищи часто облегчают тошноту.",
+                "constipation": "Пейте воду, добавьте клетчатку, семена льна или чернослив и больше двигайтесь.",
+                "diarrhea": "Пейте воду или регидратационные напитки, ешьте мягкую пищу и дайте желудку отдохнуть.",
+                "heartburn": "Ешьте меньшими порциями, избегайте острой пищи и попробуйте мягкие успокаивающие напитки.",
+                "toothache": "Гвоздичное масло и солёное полоскание могут временно облегчить боль, но нужен стоматолог.",
+                "back pain": "Тепло, мягкая растяжка и противовоспалительные продукты вроде имбиря или куркумы могут помочь.",
+                "joint pain": "Тёплые компрессы, имбирь, куркума и щадящая подвижность могут облегчить дискомфорт.",
+                "dry skin": "Используйте кокосовое масло, масло ши или мягкий увлажняющий уход и пейте достаточно воды.",
+                "eczema": "Мягкое увлажнение, кокосовое или кунжутное масло и избегание раздражителей могут успокаивать кожу.",
+                "dandruff": "Мягкий уход за кожей головы, масла чайного дерева или кунжута и снижение стресса могут помочь.",
+                "hair loss": "Массаж кожи головы, питательная еда и щадящий уход за волосами могут поддержать рост.",
+                "minor cuts": "Промойте место чистой водой, держите его в чистоте и можно нанести немного мёда для защиты.",
+                "minor burns": "Сразу охладите место прохладной водой и используйте алоэ вера; следите за чистотой.",
+                "dehydration": "Пейте воду чаще, можно добавить кокосовую воду или лёгкие электролиты.",
+                "blood pressure support": "Снижение соли, регулярное движение, гибискус и чеснок традиционно поддерживают давление.",
+                "blood sugar support": "Умеренность в сладком, движение, корица или пажитник традиционно поддерживают уровень сахара.",
+                "menstrual support": "Имбирь, тепло, отдых и продукты, богатые железом, часто помогают во время цикла.",
+                "immune support": "Полноценный сон, питательная еда, имбирь, чеснок и тёплые травяные напитки поддерживают иммунитет.",
+                "insomnia": "Тёплый напиток без кофеина, стабильный режим и спокойная вечерняя рутина могут помочь при бессоннице.",
+                "migraine": "Тёмная тихая комната, прохладный компресс, вода и отдых могут уменьшить приступ.",
+                "muscle soreness": "Лёгкая растяжка, массаж, отдых и тёплый чай с имбирём или куркумой могут помочь.",
+                "inflammation": "Противовоспалительная пища, имбирь, куркума и отдых могут поддержать восстановление.",
+                "bloating": "Имбирь, фенхель, мята и неспешная прогулка часто уменьшают вздутие.",
+                "food poisoning": "Сосредоточьтесь на питье, отдыхе и мягкой пище; при сильных симптомах срочно обратитесь к врачу.",
+                "common cold": "Тёплый суп, имбирь, чеснок, отдых и вода обычно помогают при простуде.",
+                "sore eyes": "Дайте глазам отдохнуть, сократите экранное время и используйте прохладный компресс.",
+                "ear pain": "Тепло снаружи уха и отдых могут облегчить боль, но при сохранении симптомов нужен врач.",
+                "mouth ulcers": "Полощите рот солёной водой, избегайте острого и можно аккуратно использовать мёд.",
+                "psoriasis": "Мягкое увлажнение, противовоспалительный рацион и щадящий уход могут уменьшить раздражение.",
+                "vitiligo": "Защищайте кожу солнцезащитой, поддерживайте питательный рацион и наблюдайтесь у специалиста.",
+                "skin care": "Мягкое очищение, достаточное питьё, натуральные увлажняющие средства и регулярный уход поддерживают кожу.",
+                "teeth care": "Чистите зубы регулярно, полощите рот, ограничьте сахар и при боли обращайтесь к стоматологу.",
+                "nails care": "Держите ногти сухими и чистыми, используйте масло и добавляйте белок и биотин в рацион.",
+                "hair care": "Мягкий массаж кожи головы, масла, щадящая укладка и полноценное питание поддерживают волосы."
+            }
+        };
+
+        Object.entries(remedyTranslationExtras).forEach(([lang, extra]) => {
+            remediesTranslations[lang] = {
+                ...(remediesTranslations[lang] || {}),
+                ...extra
+            };
+        });
 
         // ============================================
         // THEME MANAGEMENT
@@ -1454,32 +1957,114 @@
         }
 
         function changeLanguage(lang) {
-            currentLanguage = lang;
-            localStorage.setItem('remedy-language', lang);
+            currentLanguage = translations[lang] ? lang : 'en';
+            localStorage.setItem('remedy-language', currentLanguage);
             appState.langMenuOpen = false;
+            applyLocaleSettings();
             renderApp();
         }
 
-        function t(key) {
-            return translations[currentLanguage]?.[key] || translations['en'][key] || key;
+        function formatText(template, values = {}) {
+            return template.replace(/\{(\w+)\}/g, (_, key) => values[key] ?? '');
         }
 
-function getRemedyContent(tradition, concern) {
-            let advice = remedies[tradition]?.[concern];
+        function t(key, values) {
+            const template = translations[currentLanguage]?.[key] || translations['en']?.[key] || key;
+            return values ? formatText(template, values) : template;
+        }
+
+        function renderMessageContent(msg) {
+            if (msg.type === 'welcome') {
+                return t('botWelcome');
+            }
+
+            if (msg.type === 'selection') {
+                return t('guidanceFor', {
+                    tradition: getTraditionLabel(msg.tradition),
+                    concern: getConcernLabel(msg.concern)
+                });
+            }
+
+            if (msg.type === 'remedy') {
+                return getRemedyContent(msg.tradition, msg.concern);
+            }
+
+            return msg.content || '';
+        }
+
+        function applyLocaleSettings() {
+            document.documentElement.lang = currentLanguage;
+            document.documentElement.dir = RTL_LANGS.has(currentLanguage) ? 'rtl' : 'ltr';
+            document.title = `${t('welcomeTitle')} - ${t('welcomeSubtitle')}`;
+
+            const metaDescription = document.querySelector('meta[name="description"]');
+            if (metaDescription) {
+                metaDescription.setAttribute('content', t('metaDescription'));
+            }
+
+            const appleTitle = document.querySelector('meta[name="apple-mobile-web-app-title"]');
+            if (appleTitle) {
+                appleTitle.setAttribute('content', t('welcomeTitle'));
+            }
+        }
+
+        function setAppHeight() {
+            const viewportHeight = window.visualViewport
+                ? window.visualViewport.height
+                : document.documentElement.clientHeight || window.innerHeight;
+            document.documentElement.style.setProperty('--app-height', `${Math.round(viewportHeight)}px`);
+        }
+
+        let viewportUpdateFrame = null;
+        function queueViewportUpdate() {
+            if (viewportUpdateFrame) {
+                cancelAnimationFrame(viewportUpdateFrame);
+            }
+
+            viewportUpdateFrame = requestAnimationFrame(() => {
+                setAppHeight();
+                window.scrollTo(0, 0);
+                viewportUpdateFrame = null;
+            });
+        }
+
+        function getTranslatedRemedy(lang, tradition, concern) {
+            const concernTranslation = remediesTranslations[lang]?.[concern];
+
+            if (typeof concernTranslation === 'string') {
+                return concernTranslation;
+            }
+
+            if (concernTranslation && typeof concernTranslation === 'object') {
+                return concernTranslation[tradition] || concernTranslation.default || concernTranslation.all || null;
+            }
+
+            return null;
+        }
+
+        function getRemedyContent(tradition, concern) {
+            let advice = getTranslatedRemedy(currentLanguage, tradition, concern) || remedies[tradition]?.[concern];
             
             if (!advice) {
-                return "Please rest, stay hydrated, and consult a healthcare professional.";
+                return t('generalFallbackAdvice');
             }
 
-            if (currentLanguage !== 'en' && remediesTranslations[currentLanguage] && remediesTranslations[currentLanguage][concern]) {
-                advice = remediesTranslations[currentLanguage][concern];
-            }
-
-            if (concern === "STD") {
+            if (concern === 'STD') {
                 return advice;
             }
 
-            return `${advice}\n\n${t('safetyWarning')}`;
+            return `${advice}
+
+${t('safetyWarning')}`;
+        }
+
+        window.addEventListener('resize', queueViewportUpdate);
+        window.addEventListener('orientationchange', queueViewportUpdate);
+        window.addEventListener('pageshow', queueViewportUpdate);
+
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', queueViewportUpdate);
+            window.visualViewport.addEventListener('scroll', queueViewportUpdate);
         }
 
         let lastTouchEnd = 0;
@@ -1766,6 +2351,398 @@ function getRemedyContent(tradition, concern) {
             }
         };
 
+        const LANGUAGE_OPTIONS = [
+            { code: 'en', label: 'English' },
+            { code: 'ar', label: 'العربية' },
+            { code: 'fr', label: 'Français' },
+            { code: 'es', label: 'Español' },
+            { code: 'ru', label: 'Русский' },
+            { code: 'ko', label: '한국어' },
+            { code: 'fa', label: 'فارسی' }
+        ];
+
+        const COLOR_OPTIONS = ['emerald', 'blue', 'purple', 'pink', 'orange', 'cyan'];
+
+        const RTL_LANGS = new Set(['ar', 'fa']);
+
+        const TRADITION_LABELS = {
+            "ar": {
+                "African": "أفريقي",
+                "Asian": "آسيوي",
+                "Islamic": "إسلامي",
+                "Arabic": "عربي"
+            },
+            "fr": {
+                "African": "Africaine",
+                "Asian": "Asiatique",
+                "Islamic": "Islamique",
+                "Arabic": "Arabe"
+            },
+            "es": {
+                "African": "Africana",
+                "Asian": "Asiática",
+                "Islamic": "Islámica",
+                "Arabic": "Árabe"
+            },
+            "ko": {
+                "African": "아프리카",
+                "Asian": "아시아",
+                "Islamic": "이슬람",
+                "Arabic": "아랍"
+            },
+            "fa": {
+                "African": "آفریقایی",
+                "Asian": "آسیایی",
+                "Islamic": "اسلامی",
+                "Arabic": "عربی"
+            },
+            "ru": {
+                "African": "Африканская",
+                "Asian": "Азиатская",
+                "Islamic": "Исламская",
+                "Arabic": "Арабская"
+            }
+        };
+
+        const CONCERN_LABELS = {
+            "ar": {
+                "STD": "العدوى المنقولة جنسياً",
+                "flu": "الإنفلونزا",
+                "acne": "حب الشباب",
+                "anxiety": "القلق",
+                "stress": "التوتر",
+                "fatigue": "الإرهاق",
+                "weight loss": "فقدان الوزن",
+                "headache": "الصداع",
+                "sore throat": "التهاب الحلق",
+                "digestion": "الهضم",
+                "sleep": "النوم",
+                "cramps": "التشنجات",
+                "cough": "السعال",
+                "fever": "الحمى",
+                "cold": "نزلة برد",
+                "sinus congestion": "احتقان الجيوب",
+                "allergies": "الحساسية",
+                "nausea": "الغثيان",
+                "constipation": "الإمساك",
+                "diarrhea": "الإسهال",
+                "heartburn": "الحموضة",
+                "toothache": "ألم الأسنان",
+                "back pain": "ألم الظهر",
+                "joint pain": "ألم المفاصل",
+                "dry skin": "جفاف البشرة",
+                "eczema": "الأكزيما",
+                "dandruff": "قشرة الرأس",
+                "hair loss": "تساقط الشعر",
+                "minor cuts": "جروح بسيطة",
+                "minor burns": "حروق بسيطة",
+                "dehydration": "الجفاف",
+                "blood pressure support": "دعم ضغط الدم",
+                "blood sugar support": "دعم سكر الدم",
+                "menstrual support": "دعم الدورة",
+                "immune support": "دعم المناعة",
+                "insomnia": "الأرق",
+                "migraine": "الشقيقة",
+                "muscle soreness": "ألم العضلات",
+                "inflammation": "الالتهاب",
+                "bloating": "الانتفاخ",
+                "food poisoning": "تسمم غذائي",
+                "common cold": "الزكام",
+                "sore eyes": "تهيج العين",
+                "ear pain": "ألم الأذن",
+                "mouth ulcers": "قرح الفم",
+                "psoriasis": "الصدفية",
+                "vitiligo": "البهاق",
+                "skin care": "العناية بالبشرة",
+                "teeth care": "العناية بالأسنان",
+                "nails care": "العناية بالأظافر",
+                "hair care": "العناية بالشعر"
+            },
+            "fr": {
+                "STD": "IST / MST",
+                "flu": "Grippe",
+                "acne": "Acné",
+                "anxiety": "Anxiété",
+                "stress": "Stress",
+                "fatigue": "Fatigue",
+                "weight loss": "Perte de poids",
+                "headache": "Mal de tête",
+                "sore throat": "Mal de gorge",
+                "digestion": "Digestion",
+                "sleep": "Sommeil",
+                "cramps": "Crampes",
+                "cough": "Toux",
+                "fever": "Fièvre",
+                "cold": "Rhume",
+                "sinus congestion": "Congestion des sinus",
+                "allergies": "Allergies",
+                "nausea": "Nausée",
+                "constipation": "Constipation",
+                "diarrhea": "Diarrhée",
+                "heartburn": "Brûlures d'estomac",
+                "toothache": "Mal de dents",
+                "back pain": "Mal de dos",
+                "joint pain": "Douleurs articulaires",
+                "dry skin": "Peau sèche",
+                "eczema": "Eczéma",
+                "dandruff": "Pellicules",
+                "hair loss": "Chute de cheveux",
+                "minor cuts": "Petites coupures",
+                "minor burns": "Brûlures légères",
+                "dehydration": "Déshydratation",
+                "blood pressure support": "Soutien de la tension",
+                "blood sugar support": "Soutien de la glycémie",
+                "menstrual support": "Soutien menstruel",
+                "immune support": "Soutien immunitaire",
+                "insomnia": "Insomnie",
+                "migraine": "Migraine",
+                "muscle soreness": "Douleurs musculaires",
+                "inflammation": "Inflammation",
+                "bloating": "Ballonnements",
+                "food poisoning": "Intoxication alimentaire",
+                "common cold": "Rhume courant",
+                "sore eyes": "Irritation des yeux",
+                "ear pain": "Douleur d'oreille",
+                "mouth ulcers": "Ulcères buccaux",
+                "psoriasis": "Psoriasis",
+                "vitiligo": "Vitiligo",
+                "skin care": "Soin de la peau",
+                "teeth care": "Soins dentaires",
+                "nails care": "Soins des ongles",
+                "hair care": "Soin des cheveux"
+            },
+            "es": {
+                "STD": "ITS / ETS",
+                "flu": "Gripe",
+                "acne": "Acné",
+                "anxiety": "Ansiedad",
+                "stress": "Estrés",
+                "fatigue": "Fatiga",
+                "weight loss": "Pérdida de peso",
+                "headache": "Dolor de cabeza",
+                "sore throat": "Dolor de garganta",
+                "digestion": "Digestión",
+                "sleep": "Sueño",
+                "cramps": "Calambres",
+                "cough": "Tos",
+                "fever": "Fiebre",
+                "cold": "Resfriado",
+                "sinus congestion": "Congestión nasal",
+                "allergies": "Alergias",
+                "nausea": "Náusea",
+                "constipation": "Estreñimiento",
+                "diarrhea": "Diarrea",
+                "heartburn": "Acidez",
+                "toothache": "Dolor de muelas",
+                "back pain": "Dolor de espalda",
+                "joint pain": "Dolor articular",
+                "dry skin": "Piel seca",
+                "eczema": "Eccema",
+                "dandruff": "Caspa",
+                "hair loss": "Caída del cabello",
+                "minor cuts": "Cortes leves",
+                "minor burns": "Quemaduras leves",
+                "dehydration": "Deshidratación",
+                "blood pressure support": "Apoyo para la presión",
+                "blood sugar support": "Apoyo para el azúcar",
+                "menstrual support": "Apoyo menstrual",
+                "immune support": "Apoyo inmunitario",
+                "insomnia": "Insomnio",
+                "migraine": "Migraña",
+                "muscle soreness": "Dolor muscular",
+                "inflammation": "Inflamación",
+                "bloating": "Hinchazón",
+                "food poisoning": "Intoxicación alimentaria",
+                "common cold": "Resfriado común",
+                "sore eyes": "Irritación ocular",
+                "ear pain": "Dolor de oído",
+                "mouth ulcers": "Úlceras bucales",
+                "psoriasis": "Psoriasis",
+                "vitiligo": "Vitíligo",
+                "skin care": "Cuidado de la piel",
+                "teeth care": "Cuidado dental",
+                "nails care": "Cuidado de las uñas",
+                "hair care": "Cuidado del cabello"
+            },
+            "ko": {
+                "STD": "성병",
+                "flu": "독감",
+                "acne": "여드름",
+                "anxiety": "불안",
+                "stress": "스트레스",
+                "fatigue": "피로",
+                "weight loss": "체중 관리",
+                "headache": "두통",
+                "sore throat": "인후통",
+                "digestion": "소화",
+                "sleep": "수면",
+                "cramps": "경련",
+                "cough": "기침",
+                "fever": "발열",
+                "cold": "감기",
+                "sinus congestion": "부비동 막힘",
+                "allergies": "알레르기",
+                "nausea": "메스꺼움",
+                "constipation": "변비",
+                "diarrhea": "설사",
+                "heartburn": "속쓰림",
+                "toothache": "치통",
+                "back pain": "허리 통증",
+                "joint pain": "관절 통증",
+                "dry skin": "건조한 피부",
+                "eczema": "습진",
+                "dandruff": "비듬",
+                "hair loss": "탈모",
+                "minor cuts": "가벼운 상처",
+                "minor burns": "가벼운 화상",
+                "dehydration": "탈수",
+                "blood pressure support": "혈압 관리",
+                "blood sugar support": "혈당 관리",
+                "menstrual support": "생리 관리",
+                "immune support": "면역 지원",
+                "insomnia": "불면증",
+                "migraine": "편두통",
+                "muscle soreness": "근육통",
+                "inflammation": "염증",
+                "bloating": "복부 팽만",
+                "food poisoning": "식중독",
+                "common cold": "일반 감기",
+                "sore eyes": "눈 자극",
+                "ear pain": "귀 통증",
+                "mouth ulcers": "구내염",
+                "psoriasis": "건선",
+                "vitiligo": "백반증",
+                "skin care": "피부 관리",
+                "teeth care": "치아 관리",
+                "nails care": "손톱 관리",
+                "hair care": "머리카락 관리"
+            },
+            "fa": {
+                "STD": "عفونت مقاربتی",
+                "flu": "آنفلوآنزا",
+                "acne": "آکنه",
+                "anxiety": "اضطراب",
+                "stress": "استرس",
+                "fatigue": "خستگی",
+                "weight loss": "کاهش وزن",
+                "headache": "سردرد",
+                "sore throat": "گلودرد",
+                "digestion": "گوارش",
+                "sleep": "خواب",
+                "cramps": "گرفتگی",
+                "cough": "سرفه",
+                "fever": "تب",
+                "cold": "سرماخوردگی",
+                "sinus congestion": "گرفتگی سینوس",
+                "allergies": "آلرژی",
+                "nausea": "تهوع",
+                "constipation": "یبوست",
+                "diarrhea": "اسهال",
+                "heartburn": "سوزش معده",
+                "toothache": "دندان درد",
+                "back pain": "کمردرد",
+                "joint pain": "درد مفاصل",
+                "dry skin": "خشکی پوست",
+                "eczema": "اگزما",
+                "dandruff": "شوره سر",
+                "hair loss": "ریزش مو",
+                "minor cuts": "بریدگی خفیف",
+                "minor burns": "سوختگی خفیف",
+                "dehydration": "کم آبی",
+                "blood pressure support": "پشتیبانی فشار خون",
+                "blood sugar support": "پشتیبانی قند خون",
+                "menstrual support": "پشتیبانی قاعدگی",
+                "immune support": "پشتیبانی ایمنی",
+                "insomnia": "بی خوابی",
+                "migraine": "میگرن",
+                "muscle soreness": "درد عضلانی",
+                "inflammation": "التهاب",
+                "bloating": "نفخ",
+                "food poisoning": "مسمومیت غذایی",
+                "common cold": "سرماخوردگی معمولی",
+                "sore eyes": "سوزش چشم",
+                "ear pain": "گوش درد",
+                "mouth ulcers": "زخم دهان",
+                "psoriasis": "پسوریازیس",
+                "vitiligo": "ویتیلیگو",
+                "skin care": "مراقبت پوست",
+                "teeth care": "مراقبت دندان",
+                "nails care": "مراقبت ناخن",
+                "hair care": "مراقبت مو"
+            },
+            "ru": {
+                "STD": "ИППП",
+                "flu": "Грипп",
+                "acne": "Акне",
+                "anxiety": "Тревожность",
+                "stress": "Стресс",
+                "fatigue": "Усталость",
+                "weight loss": "Снижение веса",
+                "headache": "Головная боль",
+                "sore throat": "Боль в горле",
+                "digestion": "Пищеварение",
+                "sleep": "Сон",
+                "cramps": "Спазмы",
+                "cough": "Кашель",
+                "fever": "Жар",
+                "cold": "Простуда",
+                "sinus congestion": "Заложенность пазух",
+                "allergies": "Аллергия",
+                "nausea": "Тошнота",
+                "constipation": "Запор",
+                "diarrhea": "Диарея",
+                "heartburn": "Изжога",
+                "toothache": "Зубная боль",
+                "back pain": "Боль в спине",
+                "joint pain": "Боль в суставах",
+                "dry skin": "Сухая кожа",
+                "eczema": "Экзема",
+                "dandruff": "Перхоть",
+                "hair loss": "Выпадение волос",
+                "minor cuts": "Небольшие порезы",
+                "minor burns": "Небольшие ожоги",
+                "dehydration": "Обезвоживание",
+                "blood pressure support": "Поддержка давления",
+                "blood sugar support": "Поддержка сахара",
+                "menstrual support": "Поддержка цикла",
+                "immune support": "Поддержка иммунитета",
+                "insomnia": "Бессонница",
+                "migraine": "Мигрень",
+                "muscle soreness": "Боль в мышцах",
+                "inflammation": "Воспаление",
+                "bloating": "Вздутие",
+                "food poisoning": "Пищевое отравление",
+                "common cold": "Обычная простуда",
+                "sore eyes": "Раздражение глаз",
+                "ear pain": "Боль в ухе",
+                "mouth ulcers": "Язвы во рту",
+                "psoriasis": "Псориаз",
+                "vitiligo": "Витилиго",
+                "skin care": "Уход за кожей",
+                "teeth care": "Уход за зубами",
+                "nails care": "Уход за ногтями",
+                "hair care": "Уход за волосами"
+            }
+        };
+
+        function formatDefaultConcernLabel(concern) {
+            if (concern === 'STD') return 'STD';
+            return concern.replace(/\b\w/g, (char) => char.toUpperCase());
+        }
+
+        function getTraditionLabel(tradition, lang = currentLanguage) {
+            return TRADITION_LABELS[lang]?.[tradition] || tradition;
+        }
+
+        function getConcernLabel(concern, lang = currentLanguage) {
+            return CONCERN_LABELS[lang]?.[concern] || formatDefaultConcernLabel(concern);
+        }
+
+        function getColorLabel(color, lang = currentLanguage) {
+            const colorKey = `color${color.charAt(0).toUpperCase()}${color.slice(1)}`;
+            return translations[lang]?.[colorKey] || translations.en?.[colorKey] || color;
+        }
+
         // ============================================
         // APP STATE MANAGEMENT
         // ============================================
@@ -1791,7 +2768,7 @@ function getRemedyContent(tradition, concern) {
                 {
                     id: "init",
                     role: "bot",
-                    content: t('botWelcome')
+                    type: "welcome"
                 }
             ];
             renderApp();
@@ -1832,6 +2809,7 @@ function getRemedyContent(tradition, concern) {
             const root = document.getElementById("root");
             const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
             const themeIcon = currentTheme === 'light' ? '🌙' : '☀️';
+            applyLocaleSettings();
             
             if (currentPage === 'welcome') {
                 root.innerHTML = `
@@ -1875,7 +2853,7 @@ function getRemedyContent(tradition, concern) {
                     <div class="info-page">
                         <div class="info-header">
                             <h1>${t('aboutTitle')}</h1>
-                            <button class="back-btn" onclick="window.goToWelcome()">←</button>
+                            <button class="back-btn" onclick="window.goToWelcome()" title="${t('backTitle')}">←</button>
                         </div>
                         <div class="info-content scrollable">
                             <h2>${t('aboutTitle')}</h2>
@@ -1915,7 +2893,7 @@ function getRemedyContent(tradition, concern) {
                     <div class="info-page">
                         <div class="info-header">
                             <h1>${t('privacyTitle')}</h1>
-                            <button class="back-btn" onclick="window.goToWelcome()">←</button>
+                            <button class="back-btn" onclick="window.goToWelcome()" title="${t('backTitle')}">←</button>
                         </div>
                         <div class="info-content scrollable">
                             <h2>${t('privacyTitle')}</h2>
@@ -1969,7 +2947,7 @@ function getRemedyContent(tradition, concern) {
                 <div class="chat-container">
                     <div class="chat-header">
                         <div class="header-left">
-                            <button class="return-btn" onclick="window.goToWelcome()" title="Return to welcome">
+                            <button class="return-btn" onclick="window.goToWelcome()" title="${t('returnToWelcomeTitle')}">
                                 ⌂
                             </button>
                         </div>
@@ -1981,34 +2959,28 @@ function getRemedyContent(tradition, concern) {
                         
                         <div class="header-buttons">
                             <div class="lang-menu">
-                                <button class="lang-btn" onclick="window.toggleLangMenu()" title="Change language">
+                                <button class="lang-btn" onclick="window.toggleLangMenu()" title="${t('changeLanguageTitle')}">
                                     ${currentLanguage.toUpperCase()}
                                 </button>
                                 <div class="lang-dropdown ${appState.langMenuOpen ? 'active' : ''}">
-                                    <button class="lang-option ${currentLanguage === 'en' ? 'selected' : ''}" onclick="window.changeLanguage('en')">English</button>
-                                    <button class="lang-option ${currentLanguage === 'ar' ? 'selected' : ''}" onclick="window.changeLanguage('ar')">العربية</button>
-                                    <button class="lang-option ${currentLanguage === 'fr' ? 'selected' : ''}" onclick="window.changeLanguage('fr')">Français</button>
-                                    <button class="lang-option ${currentLanguage === 'es' ? 'selected' : ''}" onclick="window.changeLanguage('es')">Español</button>
-                                    <button class="lang-option ${currentLanguage === 'ko' ? 'selected' : ''}" onclick="window.changeLanguage('ko')">한국어</button>
-                                    <button class="lang-option ${currentLanguage === 'fa' ? 'selected' : ''}" onclick="window.changeLanguage('fa')">فارسی</button>
+                                    ${LANGUAGE_OPTIONS.map(({ code, label }) => `
+                                        <button class="lang-option ${currentLanguage === code ? 'selected' : ''}" onclick="window.changeLanguage('${code}')">${label}</button>
+                                    `).join('')}
                                 </div>
                             </div>
 
                             <div class="color-menu">
-                                <button class="color-btn" onclick="window.toggleColorMenu()" title="Change color">
+                                <button class="color-btn" onclick="window.toggleColorMenu()" title="${t('changeColorTitle')}">
                                     🎨
                                 </button>
                                 <div class="color-dropdown ${appState.colorMenuOpen ? 'active' : ''}">
-                                    <button class="color-option ${currentColor === 'emerald' ? 'selected' : ''}" onclick="window.changeColor('emerald')"><span class="color-dot emerald"></span>Emerald</button>
-                                    <button class="color-option ${currentColor === 'blue' ? 'selected' : ''}" onclick="window.changeColor('blue')"><span class="color-dot blue"></span>Blue</button>
-                                    <button class="color-option ${currentColor === 'purple' ? 'selected' : ''}" onclick="window.changeColor('purple')"><span class="color-dot purple"></span>Purple</button>
-                                    <button class="color-option ${currentColor === 'pink' ? 'selected' : ''}" onclick="window.changeColor('pink')"><span class="color-dot pink"></span>Pink</button>
-                                    <button class="color-option ${currentColor === 'orange' ? 'selected' : ''}" onclick="window.changeColor('orange')"><span class="color-dot orange"></span>Orange</button>
-                                    <button class="color-option ${currentColor === 'cyan' ? 'selected' : ''}" onclick="window.changeColor('cyan')"><span class="color-dot cyan"></span>Cyan</button>
+                                    ${COLOR_OPTIONS.map((color) => `
+                                        <button class="color-option ${currentColor === color ? 'selected' : ''}" onclick="window.changeColor('${color}')"><span class="color-dot ${color}"></span>${getColorLabel(color)}</button>
+                                    `).join('')}
                                 </div>
                             </div>
 
-                            <button class="theme-toggle" onclick="window.toggleTheme()" title="Toggle dark/light mode">
+                            <button class="theme-toggle" onclick="window.toggleTheme()" title="${t('toggleThemeTitle')}">
                                 ${themeIcon}
                             </button>
                         </div>
@@ -2018,7 +2990,7 @@ function getRemedyContent(tradition, concern) {
                         ${appState.messages.map((msg, idx) => `
                             <div class="message ${msg.role}">
                                 <div class="message-content ${msg.isWarning ? 'warning' : ''}">
-                                    ${escapeHtml(msg.content)}
+                                    ${escapeHtml(renderMessageContent(msg))}
                                 </div>
                             </div>
                         `).join('')}
@@ -2042,7 +3014,7 @@ function getRemedyContent(tradition, concern) {
                                             <label for="tradition">${t('tradition')} <span class="required-indicator">*</span></label>
                                             <select id="tradition" required>
                                                 <option value="">${t('choose')}</option>
-                                                ${TRADITIONS.map(t => `<option value="${t}" ${appState.tradition === t ? 'selected' : ''}>${t}</option>`).join('')}
+                                                ${TRADITIONS.map((tradition) => `<option value="${tradition}" ${appState.tradition === tradition ? 'selected' : ''}>${getTraditionLabel(tradition)}</option>`).join('')}
                                             </select>
                                         </div>
                                         
@@ -2050,7 +3022,7 @@ function getRemedyContent(tradition, concern) {
                                             <label for="concern">${t('concern')} <span class="required-indicator">*</span></label>
                                             <select id="concern" required>
                                                 <option value="">${t('choose')}</option>
-                                                ${CONCERNS.map(c => `<option value="${c}" ${appState.concern === c ? 'selected' : ''}>${c}</option>`).join('')}
+                                                ${CONCERNS.map((concern) => `<option value="${concern}" ${appState.concern === concern ? 'selected' : ''}>${getConcernLabel(concern)}</option>`).join('')}
                                             </select>
                                         </div>
                                     </div>
@@ -2094,14 +3066,19 @@ function getRemedyContent(tradition, concern) {
             e.preventDefault();
             
             if (!appState.tradition || !appState.concern) {
-                alert("Please select both tradition and concern.");
+                alert(t('selectBothAlert'));
                 return;
             }
+
+            const selectedTradition = appState.tradition;
+            const selectedConcern = appState.concern;
             
             const userMsg = {
                 id: Date.now().toString(),
                 role: "user",
-                content: `${appState.tradition} guidance for ${appState.concern}`
+                type: "selection",
+                tradition: selectedTradition,
+                concern: selectedConcern
             };
             
             appState.messages.push(userMsg);
@@ -2113,12 +3090,13 @@ function getRemedyContent(tradition, concern) {
             }
             
             setTimeout(() => {
-                const responseContent = getRemedyContent(appState.tradition, appState.concern);
                 const botMsg = {
                     id: (Date.now() + 1).toString(),
                     role: "bot",
-                    content: responseContent,
-                    isWarning: appState.concern === "STD"
+                    type: "remedy",
+                    tradition: selectedTradition,
+                    concern: selectedConcern,
+                    isWarning: selectedConcern === "STD"
                 };
                 
                 appState.messages.push(botMsg);
@@ -2141,10 +3119,12 @@ function getRemedyContent(tradition, concern) {
 
         window.addEventListener("DOMContentLoaded", () => {
             const savedLang = localStorage.getItem('remedy-language');
-            if (savedLang) {
+            if (savedLang && translations[savedLang]) {
                 currentLanguage = savedLang;
             }
             initTheme();
+            applyLocaleSettings();
+            queueViewportUpdate();
             renderApp();
         });
 
