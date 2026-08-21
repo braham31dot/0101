@@ -406,21 +406,26 @@
             color: white;
             padding: calc(0.8rem + var(--safe-area-inset-top)) 0.8rem 0.8rem 0.8rem;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             flex-shrink: 0;
             z-index: 100;
-            gap: 0.3rem;
+            gap: 0.4rem;
             transition: background 0.3s ease;
-            flex-wrap: wrap;
+        }
+
+        .chat-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
         }
 
         .header-content {
             flex: 1;
             text-align: center;
             min-width: 0;
-            order: 2;
         }
 
         .chat-header h1 {
@@ -441,14 +446,13 @@
             display: flex;
             gap: 0.25rem;
             flex-shrink: 0;
-            order: 3;
+            justify-content: center;
         }
 
         .header-left {
             display: flex;
             gap: 0.25rem;
             flex-shrink: 0;
-            order: 1;
         }
 
         .return-btn {
@@ -2946,17 +2950,21 @@ ${t('safetyWarning')}`;
             root.innerHTML = `
                 <div class="chat-container">
                     <div class="chat-header">
-                        <div class="header-left">
-                            <button class="return-btn" onclick="window.goToWelcome()" title="${t('returnToWelcomeTitle')}">
-                                ⌂
-                            </button>
+                        <div class="chat-header-top">
+                            <div class="header-left">
+                                <button class="return-btn" onclick="window.goToWelcome()" title="${t('returnToWelcomeTitle')}">
+                                    ⌂
+                                </button>
+                            </div>
+                            
+                            <div class="header-content">
+                                <h1>🌿 ${t('welcomeTitle')}</h1>
+                                <p>${t('welcomeSubtitle')}</p>
+                            </div>
+
+                            <div style="width:40px;flex-shrink:0;"></div>
                         </div>
-                        
-                        <div class="header-content">
-                            <h1>🌿 ${t('welcomeTitle')}</h1>
-                            <p>${t('welcomeSubtitle')}</p>
-                        </div>
-                        
+
                         <div class="header-buttons">
                             <div class="lang-menu">
                                 <button class="lang-btn" onclick="window.toggleLangMenu()" title="${t('changeLanguageTitle')}">
@@ -3029,7 +3037,7 @@ ${t('safetyWarning')}`;
                                     
                                     <div class="send-btn-wrapper">
                                         <button type="submit" class="send-btn" ${appState.isTyping ? 'disabled' : ''}>
-                                            ${appState.isTyping ? '⏳' : '📨'}
+                                            ${appState.isTyping ? '⏳' : '🛎️'}
                                         </button>
                                     </div>
                                 </div>
